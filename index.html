@@ -1,0 +1,4284 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>אקדמיית AI | קורסים דיגיטליים לעתיד</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&family=Assistant:wght@300;400;600;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF3366;
+            --secondary: #00D9FF;
+            --accent: #FFD700;
+            --dark: #0A0E27;
+            --darker: #050816;
+            --light: #F8F9FA;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Assistant', sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.15;
+        }
+
+        .bg-animation::before,
+        .bg-animation::after {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .bg-animation::before {
+            background: var(--secondary);
+            top: -200px;
+            right: -200px;
+            animation-delay: 0s;
+        }
+
+        .bg-animation::after {
+            background: var(--primary);
+            bottom: -200px;
+            left: -200px;
+            animation-delay: 10s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            33% {
+                transform: translate(100px, -100px) scale(1.1);
+            }
+
+            66% {
+                transform: translate(-50px, 100px) scale(0.9);
+            }
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            background: rgba(10, 14, 39, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .logo {
+            font-family: 'Heebo', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-center {
+            display: flex;
+            align-items: center;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-auth {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-login {
+            padding: 0.6rem 1.5rem;
+            background: transparent;
+            color: var(--light);
+            border: 2px solid var(--secondary);
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn-login:hover {
+            background: var(--secondary);
+            color: var(--darker);
+        }
+
+        .btn-register {
+            padding: 0.6rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary), #FF6B9D);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 51, 102, 0.4);
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 5% 4rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-family: 'Heebo', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .hero-text h1 .gradient-text {
+            background: linear-gradient(135deg, var(--secondary), var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+        }
+
+        .hero-text p {
+            font-size: 1.4rem;
+            color: rgba(248, 249, 250, 0.8);
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #FF6B9D);
+            color: white;
+            box-shadow: 0 10px 30px rgba(255, 51, 102, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 51, 102, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--light);
+            border: 2px solid var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--secondary);
+            color: var(--darker);
+            transform: translateY(-3px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Hero Visual */
+        .hero-visual {
+            position: relative;
+            animation: fadeInRight 1s ease-out 0.4s both;
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .floating-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: floatCard 6s infinite ease-in-out;
+        }
+
+        @keyframes floatCard {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(2deg);
+            }
+        }
+
+        .ai-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-3);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* Stats Section */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1400px;
+            margin: -4rem auto 4rem;
+            padding: 0 5%;
+            position: relative;
+            z-index: 10;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease-out both;
+        }
+
+        .stat-card:nth-child(1) {
+            animation-delay: 0.8s;
+        }
+
+        .stat-card:nth-child(2) {
+            animation-delay: 1s;
+        }
+
+        .stat-card:nth-child(3) {
+            animation-delay: 1.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--secondary);
+            box-shadow: 0 20px 40px rgba(0, 217, 255, 0.3);
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: rgba(248, 249, 250, 0.7);
+        }
+
+        /* Courses Section */
+        .courses {
+            padding: 6rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Heebo', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.3rem;
+            color: rgba(248, 249, 250, 0.7);
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .course-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .course-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--secondary);
+            box-shadow: 0 20px 60px rgba(0, 217, 255, 0.3);
+        }
+
+        .course-image {
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .course-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3));
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .course-card:hover .course-image::before {
+            opacity: 0.5;
+        }
+
+        .course-icon {
+            position: relative;
+            z-index: 2;
+            font-size: 4rem;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+        }
+
+        /* Specific course images from Unsplash */
+        .course-image-ai {
+            background-image: url('https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80');
+        }
+
+        .course-image-dl {
+            background-image: url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&q=80');
+        }
+
+        .course-image-nlp {
+            background-image: url('https://images.unsplash.com/photo-1655393001768-d946c97d6fd1?w=800&q=80');
+        }
+
+        .course-image-cv {
+            background-image: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&q=80');
+        }
+
+        .course-image-rl {
+            background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80');
+        }
+
+        .course-image-mlops {
+            background-image: url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80');
+        }
+
+        .course-content {
+            padding: 2rem;
+        }
+
+        .course-tag {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: rgba(0, 217, 255, 0.2);
+            color: var(--secondary);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .course-card:nth-child(2) .course-tag {
+            background: rgba(255, 51, 102, 0.2);
+            color: var(--primary);
+        }
+
+        .course-card:nth-child(3) .course-tag {
+            background: rgba(255, 215, 0, 0.2);
+            color: var(--accent);
+        }
+
+        .course-title {
+            font-family: 'Heebo', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 0.8rem;
+            color: var(--light);
+        }
+
+        .course-description {
+            color: rgba(248, 249, 250, 0.7);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .course-duration {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(248, 249, 250, 0.7);
+            font-size: 0.95rem;
+        }
+
+        .course-level {
+            padding: 0.4rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Alert System */
+        #alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            background: var(--gradient-2);
+            color: white;
+            font-weight: 700;
+            z-index: 5000;
+            transform: translateX(120%);
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #alert.show {
+            transform: translateX(0);
+        }
+
+        #api-status {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            padding: 8px 15px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ff4757;
+        }
+
+        .status-dot.online {
+            background: #2ed573;
+            box-shadow: 0 0 10px #2ed573;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 5%;
+            background: rgba(0, 217, 255, 0.03);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: var(--gradient-2);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+
+        .feature-card:nth-child(2) .feature-icon {
+            background: var(--gradient-3);
+        }
+
+        .feature-card:nth-child(3) .feature-icon {
+            background: var(--gradient-1);
+        }
+
+        .feature-card:nth-child(4) .feature-icon {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
+            color: rgba(248, 249, 250, 0.7);
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 5%;
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--gradient-1);
+            padding: 4rem;
+            border-radius: 30px;
+            box-shadow: 0 30px 60px rgba(102, 126, 234, 0.4);
+        }
+
+        .cta-content h2 {
+            font-family: 'Heebo', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 5%;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            background: var(--darker);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: rgba(248, 249, 250, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(248, 249, 250, 0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 3rem;
+            }
+
+            .cta-buttons {
+                justify-content: center;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-center {
+                display: none;
+            }
+
+            .nav-auth {
+                gap: 0.5rem;
+            }
+
+            .btn-login,
+            .btn-register {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: var(--dark);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 3rem;
+            max-width: 450px;
+            width: 90%;
+            position: relative;
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--light);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(90deg);
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .modal-header h2 {
+            font-family: 'Heebo', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .modal-header p {
+            color: rgba(248, 249, 250, 0.7);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--light);
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: var(--light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary), #FF6B9D);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 51, 102, 0.4);
+        }
+
+        .modal-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: rgba(248, 249, 250, 0.7);
+        }
+
+        .modal-footer a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .modal-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-course {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--secondary), #00B8D4);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .btn-course:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.4);
+        }
+
+        /* Alert */
+        .alert {
+            display: none;
+            position: fixed;
+            top: 100px;
+            right: 50%;
+            transform: translateX(50%);
+            background: rgba(255, 51, 102, 0.95);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 1.5rem 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(255, 51, 102, 0.4);
+            z-index: 3000;
+            animation: slideDown 0.4s ease;
+            min-width: 300px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .user-welcome {
+            display: none;
+            color: var(--secondary);
+            font-weight: 600;
+            margin-left: 1rem;
+        }
+
+        .btn-logout {
+            padding: 0.6rem 1.5rem;
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn-logout:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Course Content Styles */
+        .course-content-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 2500;
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .course-content-modal.active {
+            display: block;
+        }
+
+        .course-content-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .course-header-content {
+            background: var(--gradient-1);
+            padding: 3rem;
+            border-radius: 25px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .course-header-content h2 {
+            font-family: 'Heebo', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+
+        .course-header-content p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+
+        .close-course {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 3000;
+        }
+
+        .close-course:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .lessons-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .lesson-item {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .lesson-item:hover {
+            transform: translateX(-5px);
+            border-color: var(--secondary);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .lesson-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .lesson-number {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-3);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 900;
+            flex-shrink: 0;
+        }
+
+        .lesson-info {
+            flex: 1;
+        }
+
+        .lesson-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 0.3rem;
+            color: var(--light);
+        }
+
+        .lesson-duration {
+            color: rgba(248, 249, 250, 0.6);
+            font-size: 0.95rem;
+        }
+
+        .lesson-description {
+            color: rgba(248, 249, 250, 0.7);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .lesson-topics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .topic-tag {
+            padding: 0.4rem 1rem;
+            background: rgba(0, 217, 255, 0.15);
+            color: var(--secondary);
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .module-header {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin: 2rem 0 1.5rem;
+            border-right: 4px solid var(--primary);
+        }
+
+        .module-header h3 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .module-header p {
+            color: rgba(248, 249, 250, 0.7);
+        }
+
+        .course-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-item-number {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-item-label {
+            color: rgba(248, 249, 250, 0.7);
+        }
+
+        /* Lesson Content Viewer */
+        .lesson-content-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 3000;
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .lesson-content-modal.active {
+            display: block;
+        }
+
+        .lesson-content-wrapper {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .lesson-content-header {
+            background: var(--gradient-1);
+            padding: 3rem;
+            border-radius: 25px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .lesson-content-header h2 {
+            font-family: 'Heebo', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+
+        .lesson-content-header .lesson-meta-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .close-lesson {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 3100;
+        }
+
+        .close-lesson:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .presentation-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .slide {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide h3 {
+            font-family: 'Heebo', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+        }
+
+        .slide h4 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin: 2rem 0 1rem;
+            color: var(--secondary);
+        }
+
+        .slide p,
+        .slide ul,
+        .slide ol {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: rgba(248, 249, 250, 0.9);
+            margin-bottom: 1rem;
+        }
+
+        .slide ul,
+        .slide ol {
+            padding-right: 2rem;
+        }
+
+        .slide li {
+            margin-bottom: 0.8rem;
+        }
+
+        .slide-number {
+            text-align: center;
+            color: rgba(248, 249, 250, 0.5);
+            font-size: 0.9rem;
+            margin-top: 2rem;
+        }
+
+        .highlight-box {
+            background: rgba(0, 217, 255, 0.1);
+            border-right: 4px solid var(--secondary);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            color: #00ff00;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .image-placeholder {
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.2), rgba(255, 51, 102, 0.2));
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 3rem;
+            text-align: center;
+            margin: 2rem 0;
+            font-size: 3rem;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .concept-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            border-color: var(--secondary);
+            transform: translateY(-5px);
+        }
+
+        .concept-card h5 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .video-placeholder {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 4rem;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .video-placeholder-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 968px) {
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+
+            .slide h3 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Contact Section Styles */
+        .contact-container-full {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 3rem;
+            padding: 0 5%;
+        }
+
+        .contact-form-wrapper {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 3rem;
+        }
+
+        .contact-form textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: var(--light);
+            font-size: 1rem;
+            font-family: 'Assistant', sans-serif;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--secondary);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--secondary);
+        }
+
+        .info-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--light);
+        }
+
+        .info-card p {
+            color: rgba(248, 249, 250, 0.7);
+        }
+
+        /* FAQ and Support Pages */
+        .page-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 8rem 5% 4rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .page-header h1 {
+            font-family: 'Heebo', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: var(--secondary);
+            transform: translateX(-5px);
+        }
+
+        .faq-question {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .faq-answer {
+            color: rgba(248, 249, 250, 0.8);
+            line-height: 1.8;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .content-section h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .content-section p,
+        .content-section ul {
+            color: rgba(248, 249, 250, 0.8);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .content-section ul {
+            padding-right: 2rem;
+        }
+
+        .content-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 968px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-animation"></div>
+
+    <!-- Alert Message -->
+    <div class="alert" id="alert"></div>
+
+    <!-- Course Content Modal -->
+    <div class="course-content-modal" id="courseContentModal">
+        <button class="close-course" onclick="closeCourseContent()">×</button>
+        <div class="course-content-container" id="courseContentContainer">
+            <!-- Course content will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Content Pages Modal -->
+    <div class="course-content-modal" id="contentPageModal">
+        <button class="close-course" onclick="closeContentPage()">×</button>
+        <div class="page-content" id="pageContentContainer">
+            <!-- Page content will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Lesson Content Modal -->
+    <div class="lesson-content-modal" id="lessonContentModal">
+        <button class="close-lesson" onclick="closeLessonContent()">×</button>
+        <div class="lesson-content-wrapper" id="lessonContentWrapper">
+            <!-- Lesson presentations will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('loginModal')">×</button>
+            <div class="modal-header">
+                <h2>כניסה למערכת</h2>
+                <p>התחבר כדי להמשיך ללמוד</p>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">אימייל</label>
+                    <input type="email" id="loginEmail" required placeholder="example@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">סיסמה</label>
+                    <input type="password" id="loginPassword" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn-submit">כניסה</button>
+            </form>
+            <div class="modal-footer">
+                עדיין אין לך חשבון? <a onclick="switchModal('loginModal', 'registerModal')">הירשם עכשיו</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('registerModal')">×</button>
+            <div class="modal-header">
+                <h2>הרשמה</h2>
+                <p>צור חשבון חדש והתחל ללמוד</p>
+            </div>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="registerName">שם מלא</label>
+                    <input type="text" id="registerName" required placeholder="ישראל ישראלי">
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">אימייל</label>
+                    <input type="email" id="registerEmail" required placeholder="example@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">סיסמה</label>
+                    <input type="password" id="registerPassword" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn-submit">הרשמה</button>
+            </form>
+            <div class="modal-footer">
+                כבר יש לך חשבון? <a onclick="switchModal('registerModal', 'loginModal')">התחבר</a>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <nav>
+            <div class="logo">🤖 אקדמיית AI</div>
+            <div class="nav-center">
+                <ul class="nav-links">
+                    <li><a href="#home">בית</a></li>
+                    <li><a href="#courses">קורסים</a></li>
+                    <li><a href="#features">יתרונות</a></li>
+                    <li><a href="#" onclick="showPage('faq'); return false;">שאלות נפוצות</a></li>
+                    <li><a href="#contact">צור קשר</a></li>
+                </ul>
+            </div>
+            <div class="nav-auth" id="navAuth">
+                <span class="user-welcome" id="userWelcome"></span>
+                <a href="#" class="btn-login" id="btnLogin" onclick="openModal('loginModal')">כניסה</a>
+                <a href="#" class="btn-register" id="btnRegister" onclick="openModal('registerModal')">הרשמה</a>
+                <button class="btn-logout" id="btnLogout" style="display: none;" onclick="logout()">יציאה</button>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>
+                    למד <span class="gradient-text">בינה מלאכותית</span><br>
+                    עם המומחים המובילים
+                </h1>
+                <p>
+                    הצטרף לאלפי סטודנטים שכבר משדרגים את הקריירה שלהם עם הקורסים המתקדמים ביותר ב-AI, Machine Learning
+                    ו-Deep Learning
+                </p>
+                <div class="cta-buttons">
+                    <a href="#courses" class="btn btn-primary">התחל ללמוד עכשיו</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="floating-card">
+                    <div class="ai-icon">🧠</div>
+                    <h3 style="margin-bottom: 0.5rem;">למידת מכונה מתקדמת</h3>
+                    <p style="color: rgba(248, 249, 250, 0.7); margin-bottom: 1rem;">12 שבועות • פרויקטים מעשיים</p>
+                    <div
+                        style="width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden;">
+                        <div
+                            style="width: 75%; height: 100%; background: linear-gradient(90deg, var(--secondary), var(--primary)); animation: progress 2s ease-out;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="stats">
+        <div class="stat-card">
+            <div class="stat-number">15K+</div>
+            <div class="stat-label">סטודנטים פעילים</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">50+</div>
+            <div class="stat-label">קורסים מקצועיים</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">95%</div>
+            <div class="stat-label">שביעות רצון</div>
+        </div>
+    </div>
+
+    <section class="courses" id="courses">
+        <div class="section-header">
+            <h2>הקורסים הפופולריים שלנו</h2>
+            <p>בחר את הקורס המושלם עבורך ותתחיל את המסע שלך בעולם ה-AI</p>
+        </div>
+        <div class="courses-grid">
+            <div class="course-card">
+                <div class="course-image course-image-ai">
+                    <div class="course-icon">🤖</div>
+                </div>
+                <div class="course-content">
+                    <span class="course-tag">מתחילים</span>
+                    <h3 class="course-title">מבוא לבינה מלאכותית</h3>
+                    <p class="course-description">
+                        הבן את היסודות של AI, למד על אלגוריתמים בסיסיים ובנה את הפרויקט הראשון שלך
+                    </p>
+                    <div class="course-meta">
+                        <span class="course-duration">⏱️ 8 שבועות</span>
+                        <span class="course-level">מתחילים</span>
+                    </div>
+                    <button class="btn-course" onclick="startCourse('מבוא לבינה מלאכותית')">למד עכשיו</button>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-image course-image-dl">
+                    <div class="course-icon">🧠</div>
+                </div>
+                <div class="course-content">
+                    <span class="course-tag">מתקדם</span>
+                    <h3 class="course-title">Deep Learning ורשתות נוירונים</h3>
+                    <p class="course-description">
+                        צלול לעומק לתוך רשתות נוירונים, CNN, RNN ולמד לבנות מודלים מתקדמים
+                    </p>
+                    <div class="course-meta">
+                        <span class="course-duration">⏱️ 12 שבועות</span>
+                        <span class="course-level">מתקדם</span>
+                    </div>
+                    <button class="btn-course" onclick="startCourse('Deep Learning ורשתות נוירונים')">למד עכשיו</button>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-image course-image-nlp">
+                    <div class="course-icon">💬</div>
+                </div>
+                <div class="course-content">
+                    <span class="course-tag">פופולרי</span>
+                    <h3 class="course-title">NLP ועיבוד שפה טבעית</h3>
+                    <p class="course-description">
+                        למד לעבוד עם טקסטים, בנה chatbots חכמים ומודלי שפה מתקדמים
+                    </p>
+                    <div class="course-meta">
+                        <span class="course-duration">⏱️ 10 שבועות</span>
+                        <span class="course-level">ביניים</span>
+                    </div>
+                    <button class="btn-course" onclick="startCourse('NLP ועיבוד שפה טבעית')">למד עכשיו</button>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-image course-image-cv">
+                    <div class="course-icon">👁️</div>
+                </div>
+                <div class="course-content">
+                    <span class="course-tag">חדש</span>
+                    <h3 class="course-title">Computer Vision וזיהוי תמונות</h3>
+                    <p class="course-description">
+                        בנה מערכות זיהוי מתקדמות, למד על object detection וסגמנטציה
+                    </p>
+                    <div class="course-meta">
+                        <span class="course-duration">⏱️ 10 שבועות</span>
+                        <span class="course-level">ביניים</span>
+                    </div>
+                    <button class="btn-course" onclick="startCourse('Computer Vision וזיהוי תמונות')">למד עכשיו</button>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-image course-image-rl">
+                    <div class="course-icon">🎮</div>
+                </div>
+                <div class="course-content">
+                    <span class="course-tag">מתקדם</span>
+                    <h3 class="course-title">Reinforcement Learning</h3>
+                    <p class="course-description">
+                        למד איך AI לומד מניסיון, בנה סוכנים חכמים ופתרון בעיות מורכבות
+                    </p>
+                    <div class="course-meta">
+                        <span class="course-duration">⏱️ 14 שבועות</span>
+                        <span class="course-level">מתקדם</span>
+                    </div>
+                    <button class="btn-course" onclick="startCourse('Reinforcement Learning')">למד עכשיו</button>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-image course-image-mlops">
+                    <div class="course-icon">🚀</div>
+                </div>
+                <div class="course-content">
+                    <span class="course-tag">פרקטי</span>
+                    <h3 class="course-title">AI בייצור - MLOps</h3>
+                    <p class="course-description">
+                        למד להעביר מודלים לייצור, CI/CD, monitoring ו-scaling של מערכות AI
+                    </p>
+                    <div class="course-meta">
+                        <span class="course-duration">⏱️ 8 שבועות</span>
+                        <span class="course-level">מתקדם</span>
+                    </div>
+                    <button class="btn-course" onclick="startCourse('AI בייצור - MLOps')">למד עכשיו</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="section-header">
+            <h2>למה לבחור באקדמיה שלנו?</h2>
+            <p>נותנים לך את הכלים והידע להצליח בעולם ה-AI</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">👨‍🏫</div>
+                <h3 class="feature-title">מרצים מומחים</h3>
+                <p class="feature-description">למד ממומחי תעשייה שעובדים בחברות המובילות בעולם</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💻</div>
+                <h3 class="feature-title">פרויקטים מעשיים</h3>
+                <p class="feature-description">עבוד על פרויקטים אמיתיים שיעזרו לך לבנות פורטפוליו מרשים</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎓</div>
+                <h3 class="feature-title">תעודות מוכרות</h3>
+                <p class="feature-description">קבל תעודות מקצועיות מוכרות בתעשייה</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🤝</div>
+                <h3 class="feature-title">קהילה תומכת</h3>
+                <p class="feature-description">הצטרף לקהילה של אלפי לומדים ומקצוענים</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section" id="contact">
+        <div class="section-header" style="margin-bottom: 3rem;">
+            <h2>צור קשר</h2>
+            <p>יש לך שאלות? נשמח לעזור!</p>
+        </div>
+
+        <div class="contact-container-full">
+            <div class="contact-form-wrapper">
+                <form id="contactForm" class="contact-form">
+                    <div class="form-group">
+                        <label for="contactName">שם מלא *</label>
+                        <input type="text" id="contactName" required placeholder="שם מלא">
+                    </div>
+                    <div class="form-group">
+                        <label for="contactEmail">דואר אלקטרוני *</label>
+                        <input type="email" id="contactEmail" required placeholder="example@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="contactMessage">תוכן ההודעה *</label>
+                        <textarea id="contactMessage" required placeholder="כתוב את ההודעה שלך כאן..."
+                            rows="6"></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit" id="submitContactBtn">
+                        <span id="submitText">שלח הודעה</span>
+                        <span id="loadingText" style="display: none;">שולח...</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <div id="alert"></div>
+
+    <div id="api-status">
+        <div class="status-dot" id="status-dot"></div>
+        <span id="status-text">בודק חיבור לשרת...</span>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>אקדמיית AI</h3>
+                <p style="color: rgba(248, 249, 250, 0.7);">המקום המוביל ללמידת בינה מלאכותית ו-Machine Learning</p>
+            </div>
+            <div class="footer-section">
+                <h3>קישורים</h3>
+                <ul class="footer-links">
+                    <li><a href="#courses">קורסים</a></li>
+                    <li><a href="#features">אודות</a></li>
+                    <li><a href="#contact">צור קשר</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>עזרה</h3>
+                <ul class="footer-links">
+                    <li><a href="#" onclick="showPage('faq'); return false;">שאלות נפוצות</a></li>
+                    <li><a href="#" onclick="showPage('terms'); return false;">תנאי שימוש</a></li>
+                    <li><a href="#" onclick="showPage('privacy'); return false;">פרטיות</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 אקדמיית AI. כל הזכויות שמורות.</p>
+        </div>
+    </footer>
+
+    <style>
+        @keyframes progress {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 75%;
+            }
+        }
+    </style>
+
+    <script>
+        // Course Data with Full Content
+        const coursesData = {
+            'מבוא לבינה מלאכותית': {
+                title: 'מבוא לבינה מלאכותית',
+                description: 'קורס מקיף המכסה את כל היסודות של בינה מלאכותית',
+                totalLessons: 24,
+                totalHours: 40,
+                level: 'מתחילים',
+                modules: [
+                    {
+                        name: 'מודול 1: יסודות AI',
+                        description: 'הכרת העולם של בינה מלאכותית והיסטוריה',
+                        lessons: [
+                            {
+                                number: 1,
+                                title: 'מהי בינה מלאכותית?',
+                                duration: '45 דקות',
+                                description: 'היכרות עם המושגים הבסיסיים של AI, ההיסטוריה והאבולוציה של התחום',
+                                topics: ['הגדרות בסיסיות', 'AI vs ML vs DL', 'היסטוריה', 'יישומים']
+                            },
+                            {
+                                number: 2,
+                                title: 'סוגי למידת מכונה',
+                                duration: '60 דקות',
+                                description: 'למידה מפוקחת, לא מפוקחת ולמידת חיזוק - מתי להשתמש בכל סוג',
+                                topics: ['Supervised Learning', 'Unsupervised Learning', 'Reinforcement Learning']
+                            },
+                            {
+                                number: 3,
+                                title: 'סביבת הפיתוח והכלים',
+                                duration: '90 דקות',
+                                description: 'הכנת סביבת העבודה: Python, Jupyter, ספריות בסיסיות',
+                                topics: ['Python Setup', 'Jupyter Notebooks', 'NumPy', 'Pandas', 'Matplotlib']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 2: מתמטיקה ל-AI',
+                        description: 'היסודות המתמטיים הנדרשים',
+                        lessons: [
+                            {
+                                number: 4,
+                                title: 'אלגברה לינארית',
+                                duration: '75 דקות',
+                                description: 'וקטורים, מטריצות ופעולות - הבסיס למודלים של AI',
+                                topics: ['Vectors', 'Matrices', 'Linear Operations', 'Eigenvalues']
+                            },
+                            {
+                                number: 5,
+                                title: 'חשבון דיפרנציאלי',
+                                duration: '75 דקות',
+                                description: 'נגזרות, גרדיאנטים ואופטימיזציה',
+                                topics: ['Derivatives', 'Gradients', 'Chain Rule', 'Optimization']
+                            },
+                            {
+                                number: 6,
+                                title: 'הסתברות וסטטיסטיקה',
+                                duration: '90 דקות',
+                                description: 'מושגי הסתברות חיוניים למודלים סטטיסטיים',
+                                topics: ['Probability', 'Distributions', 'Bayes Theorem', 'Statistics']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 3: אלגוריתמים בסיסיים',
+                        description: 'האלגוריתמים הקלאסיים של ML',
+                        lessons: [
+                            {
+                                number: 7,
+                                title: 'Linear Regression',
+                                duration: '90 דקות',
+                                description: 'הבנת רגרסיה לינארית ויישום מעשי',
+                                topics: ['Simple Regression', 'Multiple Regression', 'Cost Function', 'Gradient Descent']
+                            },
+                            {
+                                number: 8,
+                                title: 'Logistic Regression',
+                                duration: '90 דקות',
+                                description: 'סיווג בינארי ופונקציית sigmoid',
+                                topics: ['Binary Classification', 'Sigmoid Function', 'Decision Boundary']
+                            },
+                            {
+                                number: 9,
+                                title: 'Decision Trees',
+                                duration: '75 דקות',
+                                description: 'עצי החלטה וקריטריוני פיצול',
+                                topics: ['Tree Structure', 'Gini Index', 'Information Gain', 'Pruning']
+                            },
+                            {
+                                number: 10,
+                                title: 'Random Forests',
+                                duration: '75 דקות',
+                                description: 'אנסמבל של עצים ו-bagging',
+                                topics: ['Ensemble Learning', 'Bagging', 'Feature Importance']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 4: פרויקט סיום',
+                        description: 'יישום מעשי של כל מה שלמדנו',
+                        lessons: [
+                            {
+                                number: 11,
+                                title: 'בחירת פרויקט',
+                                duration: '60 דקות',
+                                description: 'איך לבחור בעיה מתאימה ולהגדיר מטרות',
+                                topics: ['Problem Definition', 'Data Collection', 'Success Metrics']
+                            },
+                            {
+                                number: 12,
+                                title: 'בניית המודל',
+                                duration: '120 דקות',
+                                description: 'פיתוח הפרויקט הסופי שלב אחר שלב',
+                                topics: ['Data Preparation', 'Model Training', 'Evaluation', 'Deployment']
+                            }
+                        ]
+                    }
+                ]
+            },
+            'Deep Learning ורשתות נוירונים': {
+                title: 'Deep Learning ורשתות נוירונים',
+                description: 'קורס מתקדם ברשתות נוירונים עמוקות',
+                totalLessons: 32,
+                totalHours: 60,
+                level: 'מתקדם',
+                modules: [
+                    {
+                        name: 'מודול 1: יסודות רשתות נוירונים',
+                        description: 'הבנת הארכיטקטורה הבסיסית',
+                        lessons: [
+                            {
+                                number: 1,
+                                title: 'הנוירון המלאכותי',
+                                duration: '60 דקות',
+                                description: 'הבנת המבנה הבסיסי של נוירון מלאכותי',
+                                topics: ['Perceptron', 'Activation Functions', 'Weights & Biases']
+                            },
+                            {
+                                number: 2,
+                                title: 'רשתות Feed-Forward',
+                                duration: '75 דקות',
+                                description: 'בניית רשת נוירונים רב-שכבתית',
+                                topics: ['Multi-Layer Networks', 'Forward Propagation', 'Architecture Design']
+                            },
+                            {
+                                number: 3,
+                                title: 'Backpropagation',
+                                duration: '90 דקות',
+                                description: 'אלגוריתם הלמידה המרכזי ברשתות נוירונים',
+                                topics: ['Gradient Descent', 'Chain Rule', 'Weight Updates', 'Learning Rate']
+                            },
+                            {
+                                number: 4,
+                                title: 'פונקציות אקטיבציה',
+                                duration: '60 דקות',
+                                description: 'סקירת פונקציות האקטיבציה השונות',
+                                topics: ['ReLU', 'Sigmoid', 'Tanh', 'Leaky ReLU', 'Softmax']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 2: אופטימיזציה ורגולריזציה',
+                        description: 'טכניקות לשיפור ביצועי המודל',
+                        lessons: [
+                            {
+                                number: 5,
+                                title: 'אלגוריתמי אופטימיזציה',
+                                duration: '90 דקות',
+                                description: 'SGD, Adam, RMSprop ועוד',
+                                topics: ['SGD', 'Momentum', 'Adam', 'AdaGrad', 'Learning Rate Scheduling']
+                            },
+                            {
+                                number: 6,
+                                title: 'Regularization Techniques',
+                                duration: '75 דקות',
+                                description: 'מניעת overfitting',
+                                topics: ['L1/L2 Regularization', 'Dropout', 'Early Stopping', 'Data Augmentation']
+                            },
+                            {
+                                number: 7,
+                                title: 'Batch Normalization',
+                                duration: '60 דקות',
+                                description: 'נורמליזציה של השכבות',
+                                topics: ['Internal Covariate Shift', 'BN Implementation', 'Layer Normalization']
+                            },
+                            {
+                                number: 8,
+                                title: 'Hyperparameter Tuning',
+                                duration: '75 דקות',
+                                description: 'מציאת הפרמטרים האופטימליים',
+                                topics: ['Grid Search', 'Random Search', 'Bayesian Optimization']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 3: Convolutional Neural Networks',
+                        description: 'רשתות קונבולוציה לעיבוד תמונות',
+                        lessons: [
+                            {
+                                number: 9,
+                                title: 'יסודות CNN',
+                                duration: '90 דקות',
+                                description: 'הבנת פעולת הקונבולוציה',
+                                topics: ['Convolution Operation', 'Filters', 'Feature Maps', 'Pooling']
+                            },
+                            {
+                                number: 10,
+                                title: 'ארכיטקטורות קלאסיות',
+                                duration: '90 דקות',
+                                description: 'LeNet, AlexNet, VGG',
+                                topics: ['LeNet-5', 'AlexNet', 'VGG-16', 'Network Design Principles']
+                            },
+                            {
+                                number: 11,
+                                title: 'ResNet וSkip Connections',
+                                duration: '75 דקות',
+                                description: 'רשתות עמוקות מאוד',
+                                topics: ['Residual Blocks', 'Skip Connections', 'Deep Networks', 'ResNet Variants']
+                            },
+                            {
+                                number: 12,
+                                title: 'Transfer Learning',
+                                duration: '90 דקות',
+                                description: 'שימוש במודלים מאומנים',
+                                topics: ['Pre-trained Models', 'Fine-tuning', 'Feature Extraction']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 4: Recurrent Neural Networks',
+                        description: 'רשתות לעיבוד רצפים',
+                        lessons: [
+                            {
+                                number: 13,
+                                title: 'יסודות RNN',
+                                duration: '90 דקות',
+                                description: 'רשתות נוירונים רקורסיביות',
+                                topics: ['Recurrent Units', 'Sequence Processing', 'BPTT', 'Vanishing Gradients']
+                            },
+                            {
+                                number: 14,
+                                title: 'LSTM Networks',
+                                duration: '90 דקות',
+                                description: 'Long Short-Term Memory',
+                                topics: ['LSTM Architecture', 'Gates', 'Cell State', 'Gradient Flow']
+                            },
+                            {
+                                number: 15,
+                                title: 'GRU ו-Bidirectional RNNs',
+                                duration: '75 דקות',
+                                description: 'גרסאות משופרות של RNN',
+                                topics: ['GRU Architecture', 'Bidirectional Processing', 'Use Cases']
+                            },
+                            {
+                                number: 16,
+                                title: 'Attention Mechanism',
+                                duration: '90 דקות',
+                                description: 'מנגנון תשומת הלב',
+                                topics: ['Attention Weights', 'Self-Attention', 'Multi-Head Attention']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 5: Transformers',
+                        description: 'הארכיטקטורה המהפכנית',
+                        lessons: [
+                            {
+                                number: 17,
+                                title: 'ארכיטקטורת Transformer',
+                                duration: '120 דקות',
+                                description: 'Attention is All You Need',
+                                topics: ['Encoder-Decoder', 'Self-Attention', 'Positional Encoding', 'Feed-Forward']
+                            },
+                            {
+                                number: 18,
+                                title: 'BERT ו-GPT',
+                                duration: '90 דקות',
+                                description: 'מודלי שפה מבוססי Transformer',
+                                topics: ['BERT Architecture', 'GPT Models', 'Pre-training', 'Fine-tuning']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 6: GANs ומודלים גנרטיביים',
+                        description: 'יצירת תוכן חדש',
+                        lessons: [
+                            {
+                                number: 19,
+                                title: 'Generative Adversarial Networks',
+                                duration: '120 דקות',
+                                description: 'Generator ו-Discriminator',
+                                topics: ['GAN Architecture', 'Training Process', 'Mode Collapse', 'Loss Functions']
+                            },
+                            {
+                                number: 20,
+                                title: 'VAE ומודלים אחרים',
+                                duration: '90 דקות',
+                                description: 'Variational Autoencoders',
+                                topics: ['Autoencoders', 'VAE', 'Latent Space', 'Diffusion Models']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 7: פרויקטים מתקדמים',
+                        description: 'בניית אפליקציות מלאות',
+                        lessons: [
+                            {
+                                number: 21,
+                                title: 'פרויקט Computer Vision',
+                                duration: '180 דקות',
+                                description: 'בניית מערכת זיהוי מתקדמת',
+                                topics: ['Object Detection', 'Image Segmentation', 'Real-time Processing']
+                            },
+                            {
+                                number: 22,
+                                title: 'פרויקט NLP',
+                                duration: '180 דקות',
+                                description: 'מערכת עיבוד שפה',
+                                topics: ['Text Classification', 'Named Entity Recognition', 'Sentiment Analysis']
+                            }
+                        ]
+                    }
+                ]
+            },
+            'NLP ועיבוד שפה טבעית': {
+                title: 'NLP ועיבוד שפה טבעית',
+                description: 'קורס מקיף בעיבוד שפה טבעית',
+                totalLessons: 28,
+                totalHours: 50,
+                level: 'ביניים',
+                modules: [
+                    {
+                        name: 'מודול 1: יסודות NLP',
+                        description: 'מבוא לעיבוד שפה טבעית',
+                        lessons: [
+                            {
+                                number: 1,
+                                title: 'מהו NLP?',
+                                duration: '60 דקות',
+                                description: 'היכרות עם תחום עיבוד השפה הטבעית',
+                                topics: ['NLP Applications', 'Challenges', 'History', 'Use Cases']
+                            },
+                            {
+                                number: 2,
+                                title: 'Text Preprocessing',
+                                duration: '90 דקות',
+                                description: 'ניקוי והכנת טקסטים לעיבוד',
+                                topics: ['Tokenization', 'Stemming', 'Lemmatization', 'Stop Words', 'Normalization']
+                            },
+                            {
+                                number: 3,
+                                title: 'Regular Expressions',
+                                duration: '75 דקות',
+                                description: 'עבודה עם ביטויים רגולריים',
+                                topics: ['Regex Syntax', 'Pattern Matching', 'Text Extraction']
+                            },
+                            {
+                                number: 4,
+                                title: 'Text Representation',
+                                duration: '90 דקות',
+                                description: 'המרת טקסט למספרים',
+                                topics: ['Bag of Words', 'TF-IDF', 'N-grams', 'One-Hot Encoding']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 2: Word Embeddings',
+                        description: 'ייצוג מילים כוקטורים',
+                        lessons: [
+                            {
+                                number: 5,
+                                title: 'Word2Vec',
+                                duration: '120 דקות',
+                                description: 'למידת embeddings עם Word2Vec',
+                                topics: ['CBOW', 'Skip-gram', 'Training Process', 'Vector Arithmetic']
+                            },
+                            {
+                                number: 6,
+                                title: 'GloVe ו-FastText',
+                                duration: '90 דקות',
+                                description: 'שיטות נוספות ל-embeddings',
+                                topics: ['GloVe Algorithm', 'FastText Subwords', 'Comparison']
+                            },
+                            {
+                                number: 7,
+                                title: 'Contextual Embeddings',
+                                duration: '90 דקות',
+                                description: 'ELMo ו-embeddings קונטקסטואליים',
+                                topics: ['ELMo', 'Context Sensitivity', 'Dynamic Representations']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 3: Language Models',
+                        description: 'מודלי שפה סטטיסטיים',
+                        lessons: [
+                            {
+                                number: 8,
+                                title: 'N-gram Language Models',
+                                duration: '90 דקות',
+                                description: 'מודלי שפה קלאסיים',
+                                topics: ['Unigrams', 'Bigrams', 'Trigrams', 'Smoothing', 'Perplexity']
+                            },
+                            {
+                                number: 9,
+                                title: 'Neural Language Models',
+                                duration: '120 דקות',
+                                description: 'מודלי שפה עם רשתות נוירונים',
+                                topics: ['RNN-LM', 'LSTM-LM', 'Training', 'Generation']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 4: Sequence-to-Sequence',
+                        description: 'מודלים לתרגום ויצירה',
+                        lessons: [
+                            {
+                                number: 10,
+                                title: 'Seq2Seq Architecture',
+                                duration: '120 דקות',
+                                description: 'ארכיטקטורת Encoder-Decoder',
+                                topics: ['Encoder', 'Decoder', 'Context Vector', 'Teacher Forcing']
+                            },
+                            {
+                                number: 11,
+                                title: 'Attention Mechanisms',
+                                duration: '120 דקות',
+                                description: 'שיפור Seq2Seq עם Attention',
+                                topics: ['Bahdanau Attention', 'Luong Attention', 'Alignment', 'Visualization']
+                            },
+                            {
+                                number: 12,
+                                title: 'Machine Translation',
+                                duration: '90 דקות',
+                                description: 'בניית מערכת תרגום',
+                                topics: ['Translation Models', 'BLEU Score', 'Beam Search']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 5: Transformers ל-NLP',
+                        description: 'הארכיטקטורה המודרנית',
+                        lessons: [
+                            {
+                                number: 13,
+                                title: 'Transformer Architecture',
+                                duration: '120 דקות',
+                                description: 'הבנת ה-Transformer',
+                                topics: ['Self-Attention', 'Multi-Head Attention', 'Position Encoding', 'Architecture']
+                            },
+                            {
+                                number: 14,
+                                title: 'BERT - Bidirectional Encoding',
+                                duration: '120 דקות',
+                                description: 'BERT ו-pre-training',
+                                topics: ['BERT Architecture', 'Masked LM', 'Next Sentence Prediction', 'Fine-tuning']
+                            },
+                            {
+                                number: 15,
+                                title: 'GPT - Generative Pre-training',
+                                duration: '120 דקות',
+                                description: 'GPT, GPT-2, GPT-3',
+                                topics: ['GPT Models', 'Autoregressive Training', 'Zero-shot Learning', 'Prompting']
+                            },
+                            {
+                                number: 16,
+                                title: 'T5, BART ומודלים נוספים',
+                                duration: '90 דקות',
+                                description: 'מודלים מתקדמים נוספים',
+                                topics: ['T5', 'BART', 'RoBERTa', 'ALBERT', 'Model Comparison']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 6: משימות NLP',
+                        description: 'יישומים מעשיים',
+                        lessons: [
+                            {
+                                number: 17,
+                                title: 'Text Classification',
+                                duration: '90 דקות',
+                                description: 'סיווג מסמכים וטקסטים',
+                                topics: ['Sentiment Analysis', 'Topic Classification', 'Spam Detection']
+                            },
+                            {
+                                number: 18,
+                                title: 'Named Entity Recognition',
+                                duration: '90 דקות',
+                                description: 'זיהוי ישויות בטקסט',
+                                topics: ['NER Models', 'BIO Tagging', 'CRF', 'Applications']
+                            },
+                            {
+                                number: 19,
+                                title: 'Question Answering',
+                                duration: '90 דקות',
+                                description: 'מערכות שאלות ותשובות',
+                                topics: ['Extractive QA', 'Reading Comprehension', 'SQuAD Dataset']
+                            },
+                            {
+                                number: 20,
+                                title: 'Text Summarization',
+                                duration: '90 דקות',
+                                description: 'סיכום אוטומטי של טקסטים',
+                                topics: ['Extractive Summarization', 'Abstractive Summarization', 'ROUGE Score']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 7: פרויקטים',
+                        description: 'בניית אפליקציות מלאות',
+                        lessons: [
+                            {
+                                number: 21,
+                                title: 'בניית Chatbot',
+                                duration: '180 דקות',
+                                description: 'chatbot מבוסס Transformer',
+                                topics: ['Dialog Management', 'Intent Recognition', 'Response Generation']
+                            },
+                            {
+                                number: 22,
+                                title: 'מערכת Sentiment Analysis',
+                                duration: '150 דקות',
+                                description: 'ניתוח סנטימנט מתקדם',
+                                topics: ['Multi-class Classification', 'Aspect-based SA', 'Deployment']
+                            }
+                        ]
+                    }
+                ]
+            },
+            'Computer Vision וזיהוי תמונות': {
+                title: 'Computer Vision וזיהוי תמונות',
+                description: 'קורס מקיף בראייה ממוחשבת',
+                totalLessons: 26,
+                totalHours: 48,
+                level: 'ביניים',
+                modules: [
+                    {
+                        name: 'מודול 1: יסודות Computer Vision',
+                        description: 'מבוא לראייה ממוחשבת',
+                        lessons: [
+                            {
+                                number: 1,
+                                title: 'מהו Computer Vision?',
+                                duration: '60 דקות',
+                                description: 'היכרות עם תחום הראייה הממוחשבת',
+                                topics: ['CV Applications', 'Image Processing', 'History', 'Challenges']
+                            },
+                            {
+                                number: 2,
+                                title: 'עיבוד תמונות בסיסי',
+                                duration: '90 דקות',
+                                description: 'פעולות יסוד על תמונות',
+                                topics: ['Image Representation', 'Color Spaces', 'Filtering', 'Transformations']
+                            },
+                            {
+                                number: 3,
+                                title: 'Feature Detection',
+                                duration: '90 דקות',
+                                description: 'זיהוי פיצ\'רים בתמונות',
+                                topics: ['Edge Detection', 'Corner Detection', 'SIFT', 'HOG']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 2: CNNs לראייה',
+                        description: 'רשתות קונבולוציה',
+                        lessons: [
+                            {
+                                number: 4,
+                                title: 'CNN Architectures',
+                                duration: '120 דקות',
+                                description: 'ארכיטקטורות CNN מתקדמות',
+                                topics: ['VGG', 'ResNet', 'Inception', 'MobileNet', 'EfficientNet']
+                            },
+                            {
+                                number: 5,
+                                title: 'Image Classification',
+                                duration: '90 דקות',
+                                description: 'סיווג תמונות עם CNN',
+                                topics: ['Training CNNs', 'Data Augmentation', 'Transfer Learning', 'Fine-tuning']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 3: Object Detection',
+                        description: 'זיהוי אובייקטים',
+                        lessons: [
+                            {
+                                number: 6,
+                                title: 'R-CNN Family',
+                                duration: '120 דקות',
+                                description: 'R-CNN, Fast R-CNN, Faster R-CNN',
+                                topics: ['Region Proposals', 'RoI Pooling', 'Two-stage Detection']
+                            },
+                            {
+                                number: 7,
+                                title: 'YOLO ו-Single-Stage Detectors',
+                                duration: '120 דקות',
+                                description: 'זיהוי מהיר בזמן אמת',
+                                topics: ['YOLO', 'SSD', 'RetinaNet', 'Real-time Detection']
+                            },
+                            {
+                                number: 8,
+                                title: 'Evaluation Metrics',
+                                duration: '75 דקות',
+                                description: 'הערכת מערכות זיהוי',
+                                topics: ['IoU', 'mAP', 'Precision-Recall', 'F1 Score']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 4: Semantic Segmentation',
+                        description: 'סגמנטציה סמנטית',
+                        lessons: [
+                            {
+                                number: 9,
+                                title: 'FCN - Fully Convolutional Networks',
+                                duration: '90 דקות',
+                                description: 'רשתות לסגמנטציה',
+                                topics: ['FCN Architecture', 'Upsampling', 'Skip Connections']
+                            },
+                            {
+                                number: 10,
+                                title: 'U-Net ו-SegNet',
+                                duration: '90 דקות',
+                                description: 'ארכיטקטורות Encoder-Decoder',
+                                topics: ['U-Net', 'SegNet', 'Medical Imaging', 'Applications']
+                            },
+                            {
+                                number: 11,
+                                title: 'DeepLab ו-PSPNet',
+                                duration: '90 דקות',
+                                description: 'סגמנטציה מתקדמת',
+                                topics: ['Atrous Convolution', 'Pyramid Pooling', 'Multi-scale Processing']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 5: Instance Segmentation',
+                        description: 'סגמנטציה ברמת אובייקט',
+                        lessons: [
+                            {
+                                number: 12,
+                                title: 'Mask R-CNN',
+                                duration: '120 דקות',
+                                description: 'סגמנטציה וזיהוי ביחד',
+                                topics: ['Mask R-CNN Architecture', 'RoIAlign', 'Mask Branch']
+                            },
+                            {
+                                number: 13,
+                                title: 'YOLACT ו-BlendMask',
+                                duration: '90 דקות',
+                                description: 'instance segmentation מהיר',
+                                topics: ['Real-time Segmentation', 'YOLACT', 'Performance Optimization']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 6: יישומים מתקדמים',
+                        description: 'משימות מיוחדות',
+                        lessons: [
+                            {
+                                number: 14,
+                                title: 'Face Recognition',
+                                duration: '120 דקות',
+                                description: 'זיהוי והתאמת פנים',
+                                topics: ['Face Detection', 'Face Embeddings', 'Verification', 'FaceNet']
+                            },
+                            {
+                                number: 15,
+                                title: 'Pose Estimation',
+                                duration: '90 דקות',
+                                description: 'זיהוי תנוחות גוף',
+                                topics: ['Keypoint Detection', 'OpenPose', 'Human Pose', 'Applications']
+                            },
+                            {
+                                number: 16,
+                                title: 'Image Generation',
+                                duration: '120 דקות',
+                                description: 'יצירת תמונות עם GANs',
+                                topics: ['GANs', 'StyleGAN', 'Image-to-Image', 'Conditional Generation']
+                            },
+                            {
+                                number: 17,
+                                title: 'Video Analysis',
+                                duration: '90 דקות',
+                                description: 'עיבוד ווידאו',
+                                topics: ['Action Recognition', 'Video Classification', 'Temporal Processing']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 7: פרויקטים',
+                        description: 'בניית מערכות מלאות',
+                        lessons: [
+                            {
+                                number: 18,
+                                title: 'פרויקט Object Detection',
+                                duration: '180 דקות',
+                                description: 'מערכת זיהוי אובייקטים',
+                                topics: ['Custom Dataset', 'Model Training', 'Real-time Detection', 'Deployment']
+                            },
+                            {
+                                number: 19,
+                                title: 'פרויקט Segmentation',
+                                duration: '150 דקות',
+                                description: 'מערכת סגמנטציה מתקדמת',
+                                topics: ['Medical Imaging', 'Autonomous Driving', 'Applications']
+                            }
+                        ]
+                    }
+                ]
+            },
+            'Reinforcement Learning': {
+                title: 'Reinforcement Learning',
+                description: 'למידת חיזוק מתחילים עד מתקדמים',
+                totalLessons: 30,
+                totalHours: 56,
+                level: 'מתקדם',
+                modules: [
+                    {
+                        name: 'מודול 1: יסודות RL',
+                        description: 'מבוא ללמידת חיזוק',
+                        lessons: [
+                            {
+                                number: 1,
+                                title: 'מהי למידת חיזוק?',
+                                duration: '75 דקות',
+                                description: 'היכרות עם תחום ה-RL',
+                                topics: ['Agent & Environment', 'Rewards', 'States & Actions', 'Applications']
+                            },
+                            {
+                                number: 2,
+                                title: 'Markov Decision Processes',
+                                duration: '90 דקות',
+                                description: 'המודל המתמטי של RL',
+                                topics: ['MDPs', 'State Transitions', 'Reward Function', 'Policy']
+                            },
+                            {
+                                number: 3,
+                                title: 'Value Functions',
+                                duration: '90 דקות',
+                                description: 'הערכת states ו-actions',
+                                topics: ['State Value', 'Action Value', 'Q-function', 'Bellman Equations']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 2: Dynamic Programming',
+                        description: 'שיטות מבוססות תכנון',
+                        lessons: [
+                            {
+                                number: 4,
+                                title: 'Policy Evaluation',
+                                duration: '75 דקות',
+                                description: 'הערכת מדיניות',
+                                topics: ['Iterative Evaluation', 'Convergence', 'Implementation']
+                            },
+                            {
+                                number: 5,
+                                title: 'Policy Iteration',
+                                duration: '90 דקות',
+                                description: 'שיפור מדיניות',
+                                topics: ['Policy Improvement', 'Iteration Algorithm', 'Optimal Policy']
+                            },
+                            {
+                                number: 6,
+                                title: 'Value Iteration',
+                                duration: '90 דקות',
+                                description: 'מציאת ערכים אופטימליים',
+                                topics: ['Value Updates', 'Optimal Value Function', 'Applications']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 3: Monte Carlo Methods',
+                        description: 'שיטות מבוססות דגימה',
+                        lessons: [
+                            {
+                                number: 7,
+                                title: 'MC Prediction',
+                                duration: '90 דקות',
+                                description: 'הערכה עם Monte Carlo',
+                                topics: ['Episode-based Learning', 'First-visit vs Every-visit', 'Averaging']
+                            },
+                            {
+                                number: 8,
+                                title: 'MC Control',
+                                duration: '90 דקות',
+                                description: 'למידת מדיניות עם MC',
+                                topics: ['On-policy Control', 'Exploring Starts', 'ε-greedy']
+                            },
+                            {
+                                number: 9,
+                                title: 'Off-policy Methods',
+                                duration: '90 דקות',
+                                description: 'למידה ממדיניות אחרת',
+                                topics: ['Importance Sampling', 'Target vs Behavior Policy', 'Weighted Averaging']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 4: Temporal-Difference Learning',
+                        description: 'למידה עם TD',
+                        lessons: [
+                            {
+                                number: 10,
+                                title: 'TD Prediction',
+                                duration: '90 דקות',
+                                description: 'TD(0) ו-bootstrapping',
+                                topics: ['TD Error', 'Bootstrapping', 'TD vs MC', 'Convergence']
+                            },
+                            {
+                                number: 11,
+                                title: 'SARSA',
+                                duration: '90 דקות',
+                                description: 'On-policy TD Control',
+                                topics: ['SARSA Algorithm', 'Q-learning Comparison', 'Implementation']
+                            },
+                            {
+                                number: 12,
+                                title: 'Q-Learning',
+                                duration: '90 דקות',
+                                description: 'Off-policy TD Control',
+                                topics: ['Q-learning Algorithm', 'Off-policy Updates', 'Optimal Q-function']
+                            },
+                            {
+                                number: 13,
+                                title: 'n-step Methods',
+                                duration: '75 דקות',
+                                description: 'איזון בין MC ו-TD',
+                                topics: ['n-step Returns', 'n-step SARSA', 'n-step Q-learning']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 5: Function Approximation',
+                        description: 'קירוב פונקציות',
+                        lessons: [
+                            {
+                                number: 14,
+                                title: 'Linear Function Approximation',
+                                duration: '90 דקות',
+                                description: 'קירוב ליניארי',
+                                topics: ['Feature Engineering', 'Linear Methods', 'Gradient Descent']
+                            },
+                            {
+                                number: 15,
+                                title: 'Neural Networks for RL',
+                                duration: '90 דקות',
+                                description: 'שימוש ברשתות נוירונים',
+                                topics: ['Non-linear Approximation', 'Training Stability', 'Challenges']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 6: Deep RL',
+                        description: 'למידת חיזוק עמוקה',
+                        lessons: [
+                            {
+                                number: 16,
+                                title: 'Deep Q-Networks (DQN)',
+                                duration: '120 דקות',
+                                description: 'Q-learning עם רשתות עמוקות',
+                                topics: ['DQN Architecture', 'Experience Replay', 'Target Network', 'Atari Games']
+                            },
+                            {
+                                number: 17,
+                                title: 'DQN Improvements',
+                                duration: '120 דקות',
+                                description: 'שיפורים ל-DQN',
+                                topics: ['Double DQN', 'Dueling DQN', 'Prioritized Replay', 'Rainbow']
+                            },
+                            {
+                                number: 18,
+                                title: 'Policy Gradient Methods',
+                                duration: '120 דקות',
+                                description: 'אופטימיזציה ישירה של המדיניות',
+                                topics: ['REINFORCE', 'Policy Gradient Theorem', 'Baseline', 'Actor-Critic']
+                            },
+                            {
+                                number: 19,
+                                title: 'Actor-Critic Algorithms',
+                                duration: '120 דקות',
+                                description: 'שילוב value ו-policy',
+                                topics: ['A2C', 'A3C', 'Advantage Function', 'Parallel Training']
+                            },
+                            {
+                                number: 20,
+                                title: 'Proximal Policy Optimization',
+                                duration: '120 דקות',
+                                description: 'PPO - אלגוריתם מודרני',
+                                topics: ['PPO Algorithm', 'Clipping', 'Trust Regions', 'Applications']
+                            },
+                            {
+                                number: 21,
+                                title: 'Deep Deterministic Policy Gradient',
+                                duration: '120 דקות',
+                                description: 'DDPG לפעולות רציפות',
+                                topics: ['DDPG', 'Continuous Actions', 'Off-policy Actor-Critic', 'TD3']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 7: יישומים מתקדמים',
+                        description: 'נושאים מתקדמים',
+                        lessons: [
+                            {
+                                number: 22,
+                                title: 'Model-Based RL',
+                                duration: '90 דקות',
+                                description: 'למידה עם מודל של הסביבה',
+                                topics: ['World Models', 'Planning', 'Dyna-Q', 'AlphaGo']
+                            },
+                            {
+                                number: 23,
+                                title: 'Multi-Agent RL',
+                                duration: '90 דקות',
+                                description: 'למידה עם מספר סוכנים',
+                                topics: ['Cooperative Tasks', 'Competitive Tasks', 'Communication']
+                            },
+                            {
+                                number: 24,
+                                title: 'Hierarchical RL',
+                                duration: '90 דקות',
+                                description: 'למידה היררכית',
+                                topics: ['Options Framework', 'Skill Learning', 'Temporal Abstraction']
+                            },
+                            {
+                                number: 25,
+                                title: 'Imitation Learning',
+                                duration: '90 דקות',
+                                description: 'למידה מחיקוי',
+                                topics: ['Behavioral Cloning', 'Inverse RL', 'GAIL']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 8: פרויקטים',
+                        description: 'בניית סוכנים מלאים',
+                        lessons: [
+                            {
+                                number: 26,
+                                title: 'פרויקט משחק Atari',
+                                duration: '180 דקות',
+                                description: 'DQN למשחקי Atari',
+                                topics: ['Game Environment', 'Training DQN', 'Evaluation', 'Visualization']
+                            },
+                            {
+                                number: 27,
+                                title: 'פרויקט רובוטיקה',
+                                duration: '180 דקות',
+                                description: 'שליטה רובוטית עם PPO',
+                                topics: ['Robot Simulation', 'Continuous Control', 'Policy Training']
+                            }
+                        ]
+                    }
+                ]
+            },
+            'AI בייצור - MLOps': {
+                title: 'AI בייצור - MLOps',
+                description: 'העברת מודלים לסביבת ייצור',
+                totalLessons: 22,
+                totalHours: 40,
+                level: 'מתקדם',
+                modules: [
+                    {
+                        name: 'מודול 1: יסודות MLOps',
+                        description: 'מבוא ל-MLOps',
+                        lessons: [
+                            {
+                                number: 1,
+                                title: 'מהו MLOps?',
+                                duration: '60 דקות',
+                                description: 'היכרות עם תחום MLOps',
+                                topics: ['MLOps Definition', 'DevOps vs MLOps', 'Challenges', 'Best Practices']
+                            },
+                            {
+                                number: 2,
+                                title: 'ML Lifecycle',
+                                duration: '75 דקות',
+                                description: 'מחזור החיים של מודל ML',
+                                topics: ['Development', 'Training', 'Deployment', 'Monitoring', 'Maintenance']
+                            },
+                            {
+                                number: 3,
+                                title: 'Version Control למודלים',
+                                duration: '90 דקות',
+                                description: 'ניהול גרסאות של קוד ומודלים',
+                                topics: ['Git', 'DVC', 'Model Versioning', 'Data Versioning', 'MLflow']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 2: Data Pipeline',
+                        description: 'ניהול דאטה',
+                        lessons: [
+                            {
+                                number: 4,
+                                title: 'Data Ingestion',
+                                duration: '90 דקות',
+                                description: 'איסוף ושאיבת נתונים',
+                                topics: ['Data Sources', 'Batch vs Stream', 'Apache Kafka', 'Data Quality']
+                            },
+                            {
+                                number: 5,
+                                title: 'Feature Engineering Pipeline',
+                                duration: '120 דקות',
+                                description: 'בניית pipeline ל-features',
+                                topics: ['Feature Store', 'Feature Transformation', 'Feature Selection', 'Feast']
+                            },
+                            {
+                                number: 6,
+                                title: 'Data Validation',
+                                duration: '75 דקות',
+                                description: 'ולידציה של דאטה',
+                                topics: ['Schema Validation', 'Data Drift', 'Great Expectations', 'Testing']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 3: Model Training',
+                        description: 'אימון מודלים בסקייל',
+                        lessons: [
+                            {
+                                number: 7,
+                                title: 'Experiment Tracking',
+                                duration: '90 דקות',
+                                description: 'מעקב אחרי ניסויים',
+                                topics: ['MLflow', 'Weights & Biases', 'TensorBoard', 'Metrics Logging']
+                            },
+                            {
+                                number: 8,
+                                title: 'Hyperparameter Optimization',
+                                duration: '90 דקות',
+                                description: 'אופטימיזציה אוטומטית',
+                                topics: ['Grid Search', 'Bayesian Optimization', 'Optuna', 'Ray Tune']
+                            },
+                            {
+                                number: 9,
+                                title: 'Distributed Training',
+                                duration: '120 דקות',
+                                description: 'אימון מבוזר',
+                                topics: ['Data Parallelism', 'Model Parallelism', 'Horovod', 'Ray']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 4: Model Deployment',
+                        description: 'העברת מודלים לייצור',
+                        lessons: [
+                            {
+                                number: 10,
+                                title: 'Model Serving',
+                                duration: '120 דקות',
+                                description: 'הגשת מודלים כ-API',
+                                topics: ['REST API', 'gRPC', 'TensorFlow Serving', 'TorchServe', 'FastAPI']
+                            },
+                            {
+                                number: 11,
+                                title: 'Containerization',
+                                duration: '120 דקות',
+                                description: 'Docker ו-Kubernetes',
+                                topics: ['Docker', 'Docker Compose', 'Kubernetes', 'Container Registry']
+                            },
+                            {
+                                number: 12,
+                                title: 'Model Optimization',
+                                duration: '90 דקות',
+                                description: 'אופטימיזציה לייצור',
+                                topics: ['Quantization', 'Pruning', 'Knowledge Distillation', 'ONNX']
+                            },
+                            {
+                                number: 13,
+                                title: 'Batch vs Online Inference',
+                                duration: '75 דקות',
+                                description: 'אסטרטגיות inference',
+                                topics: ['Batch Processing', 'Real-time Inference', 'Trade-offs', 'Use Cases']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 5: CI/CD למודלים',
+                        description: 'אינטגרציה רציפה',
+                        lessons: [
+                            {
+                                number: 14,
+                                title: 'CI/CD Pipelines',
+                                duration: '120 דקות',
+                                description: 'בניית pipelines אוטומטיים',
+                                topics: ['GitHub Actions', 'GitLab CI', 'Jenkins', 'Automated Testing']
+                            },
+                            {
+                                number: 15,
+                                title: 'Model Testing',
+                                duration: '90 דקות',
+                                description: 'בדיקות למודלים',
+                                topics: ['Unit Tests', 'Integration Tests', 'Model Validation', 'A/B Testing']
+                            },
+                            {
+                                number: 16,
+                                title: 'Deployment Strategies',
+                                duration: '90 דקות',
+                                description: 'אסטרטגיות deployment',
+                                topics: ['Blue-Green', 'Canary', 'Rolling Updates', 'Shadow Mode']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 6: Monitoring וObservability',
+                        description: 'ניטור ותחזוקה',
+                        lessons: [
+                            {
+                                number: 17,
+                                title: 'Model Monitoring',
+                                duration: '120 דקות',
+                                description: 'ניטור ביצועי מודלים',
+                                topics: ['Metrics', 'Alerting', 'Prometheus', 'Grafana', 'Performance Degradation']
+                            },
+                            {
+                                number: 18,
+                                title: 'Data Drift Detection',
+                                duration: '90 דקות',
+                                description: 'זיהוי שינויים בדאטה',
+                                topics: ['Distribution Shift', 'Concept Drift', 'Detection Methods', 'Retraining']
+                            },
+                            {
+                                number: 19,
+                                title: 'Logging וDebugging',
+                                duration: '75 דקות',
+                                description: 'לוגים ואיתור באגים',
+                                topics: ['Structured Logging', 'ELK Stack', 'Debugging Tools', 'Error Tracking']
+                            }
+                        ]
+                    },
+                    {
+                        name: 'מודול 7: פרויקט מלא',
+                        description: 'בניית מערכת end-to-end',
+                        lessons: [
+                            {
+                                number: 20,
+                                title: 'ארכיטקטורת המערכת',
+                                duration: '120 דקות',
+                                description: 'תכנון מערכת MLOps מלאה',
+                                topics: ['System Design', 'Component Selection', 'Scalability', 'Best Practices']
+                            },
+                            {
+                                number: 21,
+                                title: 'בניית Pipeline מלא',
+                                duration: '180 דקות',
+                                description: 'יישום מעשי של כל הכלים',
+                                topics: ['Data Pipeline', 'Training Pipeline', 'Deployment', 'Monitoring']
+                            },
+                            {
+                                number: 22,
+                                title: 'Production Readiness',
+                                duration: '90 דקות',
+                                description: 'הכנה לייצור אמיתי',
+                                topics: ['Security', 'Compliance', 'Documentation', 'Handoff']
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        // Check if user is logged in on page load
+        window.addEventListener('DOMContentLoaded', function () {
+            checkLoginStatus();
+        });
+
+        function checkLoginStatus() {
+            const user = localStorage.getItem('loggedInUser');
+            if (user) {
+                const userData = JSON.parse(user);
+                showLoggedInState(userData.name);
+            }
+        }
+
+        function showLoggedInState(userName) {
+            document.getElementById('userWelcome').textContent = `שלום, ${userName}`;
+            document.getElementById('userWelcome').style.display = 'inline';
+            document.getElementById('btnLogin').style.display = 'none';
+            document.getElementById('btnRegister').style.display = 'none';
+            document.getElementById('btnLogout').style.display = 'inline-block';
+        }
+
+        function showLoggedOutState() {
+            document.getElementById('userWelcome').style.display = 'none';
+            document.getElementById('btnLogin').style.display = 'inline-block';
+            document.getElementById('btnRegister').style.display = 'inline-block';
+            document.getElementById('btnLogout').style.display = 'none';
+        }
+
+        function openModal(modalId) {
+            event.preventDefault();
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function switchModal(closeModalId, openModalId) {
+            closeModal(closeModalId);
+            setTimeout(() => openModal(openModalId), 300);
+        }
+
+        function showAlert(message) {
+            console.log('Alert:', message);
+            const alert = document.getElementById('alert');
+            if (!alert) {
+                window.alert(message);
+                return;
+            }
+            alert.textContent = message;
+            alert.classList.add('show');
+            setTimeout(() => {
+                alert.classList.remove('show');
+            }, 5000);
+        }
+
+        // Generate unique user ID
+        function generateUserId(email) {
+            // Create a simple hash from email for unique ID
+            let hash = 0;
+            for (let i = 0; i < email.length; i++) {
+                const char = email.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            return 'user_' + Math.abs(hash);
+        }
+
+        // Login form submission
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            // Check if user exists in localStorage
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                // Set logged in user with their unique ID
+                localStorage.setItem('loggedInUser', JSON.stringify(user));
+                localStorage.setItem('currentUserId', user.userId);
+                showLoggedInState(user.name);
+                closeModal('loginModal');
+                showAlert('התחברת בהצלחה! 🎉');
+            } else {
+                showAlert('אימייל או סיסמה שגויים ❌');
+            }
+        });
+
+        // Register form submission
+        document.getElementById('registerForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+
+            // Get existing users or create new array
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+
+            // Check if email already exists
+            if (users.find(u => u.email === email)) {
+                showAlert('המייל כבר קיים במערכת ❌');
+                return;
+            }
+
+            // Generate unique user ID
+            const userId = generateUserId(email);
+
+            // Add new user with unique ID
+            const newUser = { userId, name, email, password };
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            localStorage.setItem('loggedInUser', JSON.stringify(newUser));
+            localStorage.setItem('currentUserId', userId);
+
+            showLoggedInState(name);
+            closeModal('registerModal');
+            showAlert('נרשמת בהצלחה! ברוך הבא 🎉');
+        });
+
+        function logout() {
+            localStorage.removeItem('loggedInUser');
+            localStorage.removeItem('currentUserId');
+            showLoggedOutState();
+            showAlert('התנתקת מהמערכת 👋');
+        }
+
+        function startCourse(courseName) {
+            const user = localStorage.getItem('loggedInUser');
+
+            if (!user) {
+                showAlert('עליך להירשם כדי ללמוד את הקורס! 🔒');
+                setTimeout(() => {
+                    openModal('registerModal');
+                }, 1500);
+            } else {
+                showCourseContent(courseName);
+            }
+        }
+
+        function showCourseContent(courseName) {
+            const course = coursesData[courseName];
+            if (!course) return;
+
+            const container = document.getElementById('courseContentContainer');
+
+            let lessonsHTML = '';
+            course.modules.forEach((module, moduleIndex) => {
+                lessonsHTML += `
+                    <div class="module-header">
+                        <h3>${module.name}</h3>
+                        <p>${module.description}</p>
+                    </div>
+                    <div class="lessons-grid">
+                `;
+
+                module.lessons.forEach(lesson => {
+                    lessonsHTML += `
+                        <div class="lesson-item" onclick="openLessonContent('${courseName}', ${lesson.number})">
+                            <div class="lesson-header">
+                                <div class="lesson-number">${lesson.number}</div>
+                                <div class="lesson-info">
+                                    <div class="lesson-title">${lesson.title}</div>
+                                    <div class="lesson-duration">⏱️ ${lesson.duration}</div>
+                                </div>
+                            </div>
+                            <p class="lesson-description">${lesson.description}</p>
+                            <div class="lesson-topics">
+                                ${lesson.topics.map(topic => `<span class="topic-tag">${topic}</span>`).join('')}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                lessonsHTML += '</div>';
+            });
+
+            container.innerHTML = `
+                <div class="course-header-content">
+                    <h2>${course.title}</h2>
+                    <p>${course.description}</p>
+                </div>
+                
+                <div class="course-stats">
+                    <div class="stat-item">
+                        <div class="stat-item-number">${course.totalLessons}</div>
+                        <div class="stat-item-label">שיעורים</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-item-number">${course.totalHours}</div>
+                        <div class="stat-item-label">שעות לימוד</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-item-number">${course.level}</div>
+                        <div class="stat-item-label">רמה</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-item-number">${course.modules.length}</div>
+                        <div class="stat-item-label">מודולים</div>
+                    </div>
+                </div>
+                
+                ${lessonsHTML}
+            `;
+
+            document.getElementById('courseContentModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCourseContent() {
+            document.getElementById('courseContentModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Contact Form Submission with Resend API
+        document.getElementById('contactForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('submitContactBtn');
+            const submitText = document.getElementById('submitText');
+            const loadingText = document.getElementById('loadingText');
+
+            // Disable button and show loading
+            submitBtn.disabled = true;
+            submitText.style.display = 'none';
+            loadingText.style.display = 'inline';
+
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            const message = document.getElementById('contactMessage').value;
+
+            try {
+                const response = await fetch('http://localhost:3001/api/send-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, email, message })
+                });
+
+                if (response.ok) {
+                    showAlert('ההודעה נשלחה בהצלחה! ✅ נחזור אליך בקרוב');
+                    document.getElementById('contactForm').reset();
+                } else {
+                    const contentType = response.headers.get('content-type');
+                    let errorMessage = `Error ${response.status}`;
+
+                    if (contentType && contentType.includes('application/json')) {
+                        const errorData = await response.json().catch(() => ({}));
+                        errorMessage = errorData.error || errorMessage;
+                    } else {
+                        const text = await response.text().catch(() => '');
+                        console.error('Server returned non-JSON:', text.substring(0, 200));
+                        // If it's a 404, it might mean the API route wasn't found
+                        if (response.status === 404) errorMessage = "כתובת ה-API לא נמצאה (404). וודא שתיקיית api הועלתה";
+                    }
+
+                    throw new Error(errorMessage);
+                }
+            } catch (error) {
+                console.error('Detailed Error:', error);
+                showAlert(`שגיאת מערכת: ${error.message} ❌`);
+            } finally {
+                // Re-enable button
+                submitBtn.disabled = false;
+                submitText.style.display = 'inline';
+                loadingText.style.display = 'none';
+            }
+        });
+
+        // Content Pages Functions
+        const contentPages = {
+            faq: {
+                title: 'שאלות נפוצות',
+                content: `
+                    <div class="page-header">
+                        <h1>שאלות נפוצות</h1>
+                        <p>מצא תשובות לשאלות הנפוצות ביותר</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">האם אני צריך ידע מוקדם בתכנות?</div>
+                        <div class="faq-answer">לקורס המבוא אין צורך בידע מוקדם. עם זאת, עבור הקורסים המתקדמים מומלץ ידע בסיסי ב-Python ומתמטיקה.</div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">כמה זמן לוקח להשלים קורס?</div>
+                        <div class="faq-answer">משך הזמן משתנה בין 8-14 שבועות בהתאם לקורס. כל קורס כולל 20-32 שיעורים עם פרויקטים מעשיים.</div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">האם אקבל תעודה בסיום הקורס?</div>
+                        <div class="faq-answer">כן! בסיום מוצלח של הקורס ועמידה בכל הדרישות, תקבל תעודה מקצועית מוכרת בתעשייה.</div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">האם הקורסים בעברית?</div>
+                        <div class="faq-answer">כן, כל הקורסים מועברים בעברית עם כתוביות ומצגות בעברית. חלק מהמונחים הטכניים נשארים באנגלית כפי שמקובל בתעשייה.</div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">מה כלול במחיר הקורס?</div>
+                        <div class="faq-answer">המחיר כולל גישה מלאה לכל חומרי הלימוד, הקלטות וידאו, משימות מעשיות, פרויקטים, תמיכה טכנית וגישה לקהילת הלומדים.</div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">האם אוכל ללמוד בקצב שלי?</div>
+                        <div class="faq-answer">בהחלט! הקורסים זמינים 24/7 ותוכל ללמוד בקצב שלך. יש לך גישה לכל החומרים ללא הגבלת זמן.</div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">האם יש תמיכה טכנית?</div>
+                        <div class="faq-answer">כן! צוות התמיכה שלנו זמין לעזור בכל בעיה טכנית או שאלה לגבי התוכן. תוכל לפנות דרך הפורום, מייל או צ'אט.</div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">מה הדרישות הטכניות?</div>
+                        <div class="faq-answer">מחשב עם חיבור לאינטרנט יציב. עבור קורסי Deep Learning מומלץ מחשב עם כרטיס מסך GPU, אך ניתן להשתמש גם בפתרונות ענן בחינם.</div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">האם יש הנחות לקבוצות?</div>
+                        <div class="faq-answer">כן! אנחנו מציעים הנחות מיוחדות לרכישות קבוצתיות של 5 משתתפים ומעלה. צור קשר לפרטים נוספים.</div>
+                    </div>
+                `
+            },
+            support: {
+                title: 'תמיכה',
+                content: `
+                    <div class="page-header">
+                        <h1>מרכז התמיכה</h1>
+                        <p>אנחנו כאן לעזור לך בכל שלב</p>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>📧 יצירת קשר</h2>
+                        <p>אתה יכול לפנות אלינו בדרכים הבאות:</p>
+                        <ul>
+                            <li><strong>דואר אלקטרוני:</strong> sabrinka.k@gmail.com</li>
+                            <li><strong>טופס יצירת קשר:</strong> מלא את הטופס באתר ונחזור אליך תוך 24 שעות</li>
+                            <li><strong>זמני מענה:</strong> ראשון-חמישי, 09:00-18:00</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>💡 משאבי עזרה</h2>
+                        <p>לפני שפונים אלינו, בדוק את המשאבים הבאים:</p>
+                        <ul>
+                            <li><strong>שאלות נפוצות:</strong> מענה לשאלות הנפוצות ביותר</li>
+                            <li><strong>מדריכים טכניים:</strong> הדרכות להתקנה ושימוש בכלים</li>
+                            <li><strong>פורום הקהילה:</strong> שאל ולמד מסטודנטים אחרים</li>
+                            <li><strong>מרכז הידע:</strong> מאמרים ומדריכים מפורטים</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>🛠️ תמיכה טכנית</h2>
+                        <p>בעיות טכניות? אנחנו כאן לעזור:</p>
+                        <ul>
+                            <li>בעיות בכניסה למערכת</li>
+                            <li>בעיות בהרצת קוד</li>
+                            <li>שאלות על התקנת ספריות</li>
+                            <li>בעיות בצפייה בסרטונים</li>
+                            <li>כל בעיה טכנית אחרת</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>🎓 תמיכה אקדמית</h2>
+                        <p>שאלות על התוכן? המרצים והמדריכים שלנו זמינים:</p>
+                        <ul>
+                            <li>הבהרות על חומר הלימוד</li>
+                            <li>עזרה בפרויקטים</li>
+                            <li>ייעוץ לגבי מסלול הלימודים</li>
+                            <li>המלצות על משאבים נוספים</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>⏱️ זמני תגובה</h2>
+                        <p>אנחנו מתחייבים:</p>
+                        <ul>
+                            <li><strong>שאלות טכניות דחופות:</strong> תגובה תוך 4 שעות</li>
+                            <li><strong>שאלות כלליות:</strong> תגובה תוך 24 שעות</li>
+                            <li><strong>שאלות אקדמיות:</strong> תגובה תוך 48 שעות</li>
+                        </ul>
+                    </div>
+                `
+            },
+            terms: {
+                title: 'תנאי שימוש',
+                content: `
+                    <div class="page-header">
+                        <h1>תנאי שימוש</h1>
+                        <p>עדכון אחרון: פברואר 2026</p>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>1. כללי</h2>
+                        <p>ברוכים הבאים לאקדמיית AI. השימוש באתר ובשירותים שלנו כפוף לתנאים המפורטים להלן. על ידי גישה לאתר או שימוש בו, אתה מסכים לתנאים אלה במלואם.</p>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>2. רישום והרשמה</h2>
+                        <ul>
+                            <li>על מנת לגשת לקורסים, עליך להירשם ולפתוח חשבון אישי</li>
+                            <li>עליך למלא פרטים מדויקים ועדכניים</li>
+                            <li>אתה אחראי לשמירה על סודיות הסיסמה שלך</li>
+                            <li>אסור להעביר את חשבונך לאחרים</li>
+                            <li>גיל מינימלי לרישום: 16 שנים</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>3. שימוש מותר</h2>
+                        <p>אתה מתחייב:</p>
+                        <ul>
+                            <li>להשתמש בשירותים למטרות חוקיות בלבד</li>
+                            <li>לא להעתיק, להפיץ או למכור את תוכן הקורסים</li>
+                            <li>לא לשתף את חשבונך עם אחרים</li>
+                            <li>לכבד את זכויות היוצרים שלנו ושל האחרים</li>
+                            <li>לא לפגוע בפעילות התקינה של האתר</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>4. זכויות קניין רוחני</h2>
+                        <p>כל התוכן באתר, כולל:</p>
+                        <ul>
+                            <li>סרטוני לימוד</li>
+                            <li>מצגות ומסמכים</li>
+                            <li>קוד לדוגמה</li>
+                            <li>תרגילים ומשימות</li>
+                        </ul>
+                        <p>הם רכושנו הבלעדי ומוגנים בזכויות יוצרים. אסור להעתיק או להפיץ ללא אישור בכתב.</p>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>5. תשלומים והחזרים</h2>
+                        <ul>
+                            <li>התשלום מתבצע באמצעות מערכות תשלום מאובטחות</li>
+                            <li>ניתן לבטל רכישה ולקבל החזר כספי מלא תוך 14 יום מהרכישה</li>
+                            <li>לאחר 14 יום, לא יינתנו החזרים כספיים</li>
+                            <li>המחירים באתר בשקלים ויכולים להשתנות ללא הודעה מוקדמת</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>6. הגבלת אחריות</h2>
+                        <p>אנחנו לא נהיה אחראים:</p>
+                        <ul>
+                            <li>לכל נזק ישיר או עקיף הנובע משימוש באתר</li>
+                            <li>לאובדן נתונים או רווחים</li>
+                            <li>להפרעות בשירות או בגישה לאתר</li>
+                            <li>לתוכן שמסרו משתמשים אחרים</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>7. שינויים בתנאים</h2>
+                        <p>אנחנו שומרים לעצמנו את הזכות לשנות תנאים אלה בכל עת. שינויים יכנסו לתוקף מיד עם פרסומם באתר. המשך השימוש באתר לאחר השינוי מהווה הסכמה לתנאים החדשים.</p>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>8. סיום חשבון</h2>
+                        <p>אנחנו שומרים לעצמנו את הזכות לסגור או להשעות חשבון של משתמש שמפר תנאים אלה, ללא הודעה מוקדמת ולפי שיקול דעתנו הבלעדי.</p>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>9. דין וסמכות שיפוט</h2>
+                        <p>תנאים אלה כפופים לדיני מדינת ישראל. כל מחלוקת תידון בבתי המשפט המוסמכים בישראל בלבד.</p>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>10. יצירת קשר</h2>
+                        <p>לשאלות לגבי תנאים אלה, ניתן ליצור קשר:</p>
+                        <p><strong>דואר אלקטרוני:</strong> sabrinka.k@gmail.com</p>
+                    </div>
+                `
+            },
+            privacy: {
+                title: 'מדיניות פרטיות',
+                content: `
+                    <div class="page-header">
+                        <h1>מדיניות פרטיות</h1>
+                        <p>עדכון אחרון: פברואר 2026</p>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>1. מבוא</h2>
+                        <p>אקדמיית AI מחויבת להגן על פרטיות המשתמשים שלה. מדיניות זו מסבירה איזה מידע אנחנו אוספים, כיצד אנחנו משתמשים בו ומה הזכויות שלך.</p>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>2. מידע שאנחנו אוספים</h2>
+                        <h3>מידע שאתה מספק:</h3>
+                        <ul>
+                            <li><strong>פרטי הרשמה:</strong> שם, כתובת דואר אלקטרוני, סיסמה</li>
+                            <li><strong>פרטי תשלום:</strong> מידע על כרטיס אשראי (מוצפן ומאובטח)</li>
+                            <li><strong>פרטי פרופיל:</strong> תמונה, תיאור, מידע נוסף שתבחר לשתף</li>
+                            <li><strong>תוכן:</strong> שאלות, תגובות, פרויקטים שאתה מעלה</li>
+                        </ul>
+                        
+                        <h3>מידע שנאסף אוטומטית:</h3>
+                        <ul>
+                            <li><strong>מידע טכני:</strong> כתובת IP, סוג דפדפן, מערכת הפעלה</li>
+                            <li><strong>נתוני שימוש:</strong> דפים שביקרת, זמן שהייה, קורסים שצפית</li>
+                            <li><strong>עוגיות:</strong> לשיפור חוויית השימוש</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>3. שימוש במידע</h2>
+                        <p>אנחנו משתמשים במידע שלך כדי:</p>
+                        <ul>
+                            <li>לספק ולשפר את השירותים שלנו</li>
+                            <li>לנהל את חשבונך ולאפשר גישה לקורסים</li>
+                            <li>לעבד תשלומים</li>
+                            <li>לתקשר איתך (עדכונים, תמיכה, שיווק)</li>
+                            <li>לשפר את חוויית המשתמש</li>
+                            <li>לנתח שימוש ולבצע מחקר</li>
+                            <li>למנוע הונאות ולאכוף את התנאים שלנו</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>4. שיתוף מידע</h2>
+                        <p>אנחנו לא מוכרים את המידע האישי שלך. אנחנו עשויים לשתף מידע עם:</p>
+                        <ul>
+                            <li><strong>ספקי שירות:</strong> חברות שעוזרות לנו להפעיל את האתר (אחסון, תשלומים, אנליטיקה)</li>
+                            <li><strong>גורמי אכיפה:</strong> אם נדרש על פי חוק</li>
+                            <li><strong>שותפים עסקיים:</strong> רק אם תסכים במפורש</li>
+                        </ul>
+                        <p>כל הספקים שלנו מחויבים לשמור על סודיות המידע.</p>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>5. אבטחת מידע</h2>
+                        <p>אנחנו נוקטים אמצעים כדי להגן על המידע שלך:</p>
+                        <ul>
+                            <li>הצפנת SSL לכל העברות נתונים</li>
+                            <li>אחסון מאובטח עם גיבויים קבועים</li>
+                            <li>גישה מוגבלת למידע רק לעובדים מורשים</li>
+                            <li>ניטור מתמיד למניעת פריצות</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>6. הזכויות שלך</h2>
+                        <p>יש לך זכות:</p>
+                        <ul>
+                            <li><strong>לגשת:</strong> לראות איזה מידע יש לנו עליך</li>
+                            <li><strong>לתקן:</strong> לעדכן מידע לא מדויק</li>
+                            <li><strong>למחוק:</strong> לבקש למחוק את המידע שלך</li>
+                            <li><strong>להגביל:</strong> להגביל עיבוד מסוים</li>
+                            <li><strong>לייצא:</strong> לקבל עותק של המידע שלך</li>
+                            <li><strong>להתנגד:</strong> להתנגד לשימושים מסוימים</li>
+                        </ul>
+                        <p>לביצוע זכויות אלה, פנה אלינו בדוא"ל.</p>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>7. עוגיות</h2>
+                        <p>אנחנו משתמשים בעוגיות כדי:</p>
+                        <ul>
+                            <li>לזכור את ההעדפות והחיבור שלך</li>
+                            <li>לנתח תעבורה ושימוש באתר</li>
+                            <li>להציג תוכן ופרסומות מותאמים אישית</li>
+                        </ul>
+                        <p>אתה יכול להגדיר את הדפדפן שלך לחסום עוגיות, אך זה עלול להשפיע על הפונקציונליות.</p>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>8. שינויים במדיניות</h2>
+                        <p>אנחנו עשויים לעדכן מדיניות זו מעת לעת. נודיע לך על שינויים משמעותיים בדוא"ל או דרך האתר. תאריך העדכון האחרון מופיע בראש העמוד.</p>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>9. ילדים</h2>
+                        <p>השירותים שלנו אינם מיועדים לילדים מתחת לגיל 16. אנחנו לא אוספים במכוון מידע מילדים. אם הורה או אפוטרופוס מגלה שילדו סיפק מידע, אנא פנה אלינו.</p>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>10. יצירת קשר</h2>
+                        <p>לשאלות לגבי מדיניות הפרטיות שלנו או לביצוע זכויותיך:</p>
+                        <p><strong>דואר אלקטרוני:</strong> sabrinka.k@gmail.com</p>
+                        <p><strong>נציב הגנת הפרטיות:</strong> אתה יכול גם להגיש תלונה לרשות להגנת הפרטיות</p>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h2>11. העברת מידע בינלאומית</h2>
+                        <p>המידע שלך עשוי להיות מועבר ומאוחסן בשרתים מחוץ למדינתך. אנחנו מבטיחים שהמידע יוגן בהתאם לתקנים בינלאומיים.</p>
+                    </div>
+                `
+            }
+        };
+
+        function showPage(pageKey) {
+            const page = contentPages[pageKey];
+            if (!page) return;
+
+            document.getElementById('pageContentContainer').innerHTML = page.content;
+            document.getElementById('contentPageModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeContentPage() {
+            document.getElementById('contentPageModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Lesson Content Opening Function
+        function openLessonContent(courseName, lessonNumber) {
+            const course = coursesData[courseName];
+            if (!course) return;
+
+            let lesson = null;
+            for (const module of course.modules) {
+                lesson = module.lessons.find(l => l.number === lessonNumber);
+                if (lesson) break;
+            }
+
+            if (!lesson) return;
+
+            const content = generateLessonPresentation(courseName, lesson);
+
+            document.getElementById('lessonContentWrapper').innerHTML = `
+                <div class="lesson-content-header">
+                    <h2>${lesson.title}</h2>
+                    <div class="lesson-meta-info">
+                        <span>⏱️ ${lesson.duration}</span>
+                        <span>📚 שיעור ${lesson.number}</span>
+                        <span>🎓 ${course.title}</span>
+                    </div>
+                </div>
+                <div class="presentation-container">
+                    ${content}
+                </div>
+            `;
+
+            document.getElementById('lessonContentModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLessonContent() {
+            document.getElementById('lessonContentModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Generate Lesson Presentations
+        function generateLessonPresentation(courseName, lesson) {
+            // Comprehensive presentations for each lesson type
+            const presentations = {
+                'מבוא לבינה מלאכותית': {
+                    1: `
+                        <div class="slide">
+                            <h3>מהי בינה מלאכותית? 🤖</h3>
+                            <p>בינה מלאכותית (AI - Artificial Intelligence) היא תחום במדעי המחשב העוסק ביצירת מערכות מחשב מתוחכמות המסוגלות לבצע משימות הדורשות אינטליגנציה אנושית.</p>
+                            <div class="slide-number">שקף 1/8</div>
+                        </div>
+
+                        <div class="slide">
+                            <h3>הגדרה פורמלית</h3>
+                            <div class="highlight-box">
+                                <p><strong>בינה מלאכותית</strong> היא יכולתו של מחשב או רובוט המבוקר על ידי מחשב לבצע משימות שבדרך כלל דורשות אינטליגנציה אנושית והבחנה.</p>
+                            </div>
+                            <h4>מאפיינים מרכזיים:</h4>
+                            <ul>
+                                <li>🧠 למידה - היכולת להשתפר מניסיון</li>
+                                <li>💭 חשיבה - פתרון בעיות מורכבות</li>
+                                <li>🗣️ הבנה - עיבוד שפה טבעית</li>
+                                <li>👁️ תפיסה - ראייה וזיהוי דפוסים</li>
+                            </ul>
+                            <div class="slide-number">שקף 2/8</div>
+                        </div>
+
+                        <div class="slide">
+                            <h3>ההיסטוריה של AI</h3>
+                            <div class="two-column">
+                                <div class="concept-card">
+                                    <h5>1950 - מבחן טיורינג</h5>
+                                    <p>אלן טיורינג מציע את "משחק החיקוי" כדרך לבחון אם מכונה יכולה לחשוב.</p>
+                                </div>
+                                <div class="concept-card">
+                                    <h5>1956 - הולדת AI</h5>
+                                    <p>כנס דרטמות' - המונח "בינה מלאכותית" נטבע לראשונה.</p>
+                                </div>
+                            </div>
+                            <div class="two-column">
+                                <div class="concept-card">
+                                    <h5>1997 - Deep Blue</h5>
+                                    <p>מחשב של IBM מנצח את אלוף העולם בשחמט גארי קספרוב.</p>
+                                </div>
+                                <div class="concept-card">
+                                    <h5>2012 - Deep Learning</h5>
+                                    <p>פריצת דרך ברשתות נוירונים עמוקות - עידן חדש של AI.</p>
+                                </div>
+                            </div>
+                            <div class="slide-number">שקף 3/8</div>
+                        </div>
+
+                        <div class="slide">
+                            <h3>AI vs ML vs DL</h3>
+                            <div class="image-placeholder">🎯 📊 🧠</div>
+                            <div class="highlight-box">
+                                <p><strong>AI (Artificial Intelligence)</strong> - התחום הכללי של בינה מלאכותית</p>
+                                <p><strong>ML (Machine Learning)</strong> - תת-תחום של AI שמתמקד בלמידה מדאטה</p>
+                                <p><strong>DL (Deep Learning)</strong> - תת-תחום של ML המשתמש ברשתות נוירונים עמוקות</p>
+                            </div>
+                            <p style="text-align: center; margin-top: 2rem;">AI ⊃ ML ⊃ DL</p>
+                            <div class="slide-number">שקף 4/8</div>
+                        </div>
+
+                        <div class="slide">
+                            <h3>יישומים של AI בחיי היומיום</h3>
+                            <ul>
+                                <li>📱 <strong>עוזרים דיגיטליים:</strong> Siri, Alexa, Google Assistant</li>
+                                <li>🚗 <strong>רכבים אוטונומיים:</strong> Tesla, Waymo</li>
+                                <li>🎬 <strong>המלצות:</strong> Netflix, YouTube, Spotify</li>
+                                <li>📧 <strong>סינון ספאם:</strong> Gmail, Outlook</li>
+                                <li>📸 <strong>זיהוי פנים:</strong> Facebook, iPhone Face ID</li>
+                                <li>🏥 <strong>אבחון רפואי:</strong> ניתוח תמונות רנטגן ו-MRI</li>
+                                <li>💬 <strong>תרגום אוטומטי:</strong> Google Translate</li>
+                                <li>🎮 <strong>משחקים:</strong> AlphaGo, שחמט מחשב</li>
+                            </ul>
+                            <div class="slide-number">שקף 5/8</div>
+                        </div>
+
+                        <div class="slide">
+                            <h3>סוגי AI</h3>
+                            <h4>AI חלש (Narrow AI):</h4>
+                            <p>מתמחה במשימה אחת ספציפית - זה מה שקיים היום</p>
+                            <div class="highlight-box">
+                                <p>דוגמאות: מערכת שחמט, מערכת המלצות, זיהוי תמונות</p>
+                            </div>
+                            
+                            <h4 style="margin-top: 2rem;">AI חזק (General AI):</h4>
+                            <p>יכולת להבין, ללמוד ולבצע כל משימה אינטלקטואלית כמו אדם - עדיין לא קיים</p>
+                            
+                            <h4 style="margin-top: 2rem;">Super AI:</h4>
+                            <p>חכם יותר מכל בני האדם - תיאורטי בלבד</p>
+                            <div class="slide-number">שקף 6/8</div>
+                        </div>
+
+                        <div class="slide">
+                            <h3>האתגרים והסיכונים</h3>
+                            <div class="two-column">
+                                <div class="concept-card">
+                                    <h5>⚠️ אתגרים טכניים</h5>
+                                    <ul>
+                                        <li>דרישת נתונים עצומה</li>
+                                        <li>כוח חישוב גבוה</li>
+                                        <li>הסבר החלטות (Black Box)</li>
+                                    </ul>
+                                </div>
+                                <div class="concept-card">
+                                    <h5>🤔 סיכונים חברתיים</h5>
+                                    <ul>
+                                        <li>אובדן מקומות עבודה</li>
+                                        <li>הטיות באלגוריתמים</li>
+                                        <li>פרטיות ואבטחה</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="slide-number">שקף 7/8</div>
+                        </div>
+
+                        <div class="slide">
+                            <h3>סיכום והמשך 📝</h3>
+                            <div class="highlight-box">
+                                <p><strong>למדנו היום:</strong></p>
+                                <ul>
+                                    <li>מהי בינה מלאכותית והיסטוריה קצרה</li>
+                                    <li>ההבדלים בין AI, ML ו-DL</li>
+                                    <li>יישומים מעשיים בחיי היומיום</li>
+                                    <li>סוגי AI ואתגרים בתחום</li>
+                                </ul>
+                            </div>
+                            <p style="margin-top: 2rem; text-align: center; font-size: 1.4rem;">
+                                <strong>בשיעור הבא:</strong> נצלול לעומק סוגי למידת מכונה ונבין מתי להשתמש בכל סוג! 🚀
+                            </p>
+                            <div class="slide-number">שקף 8/8</div>
+                        </div>
+                    `,
+                    2: `
+                        <div class="slide">
+                            <h3>סוגי למידת מכונה 📊</h3>
+                            <p>למידת מכונה (Machine Learning) מתחלקת לשלושה סוגים עיקריים, כל אחד עם מאפיינים וייעודים שונים.</p>
+                            <div class="image-placeholder">🎯 📈 🔄</div>
+                            <div class="slide-number">שקף 1/10</div>
+                        </div>
+
+                        <div class="slide">
+                            <h3>1. למידה מפוקחת (Supervised Learning)</h3>
+                            <div class="highlight-box">
+                                <p><strong>הגדרה:</strong> למידה מדאטה מתויג - יש לנו גם את הקלט וגם את הפלט הרצוי</p>
+                            </div>
+                            <h4>איך זה עובד?</h4>
+                            <p>המודל לומד מדוגמאות שכבר יש להן תשובה נכונה, ואז מנסה לחזות תשובות לדאטה חדש.</p>
+                            <div class="code-block">
+Training Data = [(x₁, y₁), (x₂, y₂), ..., (xₙ, yₙ)]
+Model learns: f(x) ≈ y
+Prediction: ŷ = f(x_new)
+                            </div>
+                            <div class="slide-number">שקף 2/10</div>
+                        </div>
+
+                        <div class="slide">
+                            <h3>דוגמאות ללמידה מפוקחת</h3>
+                            <ul>
+                                <li>📧 <strong>סינון ספאם:</strong> האם מייל הוא ספאם או לא?</li>
+                                <li>🏠 <strong>חיזוי מחירי דירות:</strong> כמה שווה דירה בהתאם למאפיינים?</li>
+                                <li>🩺 <strong>אבחון רפואי:</strong> האם תמונת רנטגן מראה מחלה?</li>
+                                <li>😊 <strong>זיהוי רגשות:</strong> מה הרגש בטקסט?</li>
+                            </ul>
+                            <div class="two-column" style="margin-top: 2rem;">
+                                <div class="concept-card">
+                                    <h5>Regression</h5>
+                                    <p>חיזוי ערך מספרי רציף</p>
+                                    <p>דוגמה: חיזוי מחיר, טמפרטורה</p>
+                                </div>
+                                <div class="concept-card">
+                                    <h5>Classification</h5>
+                                    <p>חיזוי קטגוריה/תווית</p>
+                                    <p>דוגמה: ספאם/לא ספאם, חתול/כלב</p>
+                                </div>
+                            </div>
+                            <div class="slide-number">שקף 3/10</div>
+                        </div>
+
+                        <div class="slide">
+                            <h3>2. למידה לא מפוקחת (Unsupervised Learning)</h3>
+                            <div class="highlight-box">
+                                <p><strong>הגדרה:</strong> למידה מדאטה לא מתויג - יש לנו רק קלט, בלי תשובות נכונות</p>
+                            </div>
+                            <h4>מה המטרה?</h4>
+                            <p>למצוא מבנה, דפוסים או קבוצות בדאטה ללא הדרכה מפורשת.</p>
+                            <div class="code-block">
+Data = [x₁, x₂, x₃, ..., xₙ]
+Model finds: patterns, clusters, structure
+No "correct answers" - discover hidden patterns
+                            </div>
+                            <div class="slide-number">שקף 4/10</div>
+                        </div>
+
+                        <div class="slide">
+                            <h3>דוגמאות ללמידה לא מפוקחת</h3>
+                            <div class="two-column">
+                                <div class="concept-card">
+                                    <h5>🎯 Clustering</h5>
+                                    <p>קיבוץ דאטה לקבוצות דומות</p>
+                                    <ul style="font-size: 0.95rem;">
+                                        <li>פילוח לקוחות</li>
+                                        <li>מערכות המלצות</li>
+                                        <li>ניתוח גנים</li>
+                                    </ul>
+                                </div>
+                                <div class="concept-card">
+                                    <h5>📉 Dimensionality Reduction</h5>
+                                    <p>הפחתת מספר המאפיינים</p>
+                                    <ul style="font-size: 0.95rem;">
+                                        <li>ויזואליזציה של דאטה</li>
+                                        <li>דחיסת מידע</li>
+                                        <li>הסרת רעש</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="concept-card" style="margin-top: 1rem;">
+                                <h5>🔍 Anomaly Detection</h5>
+                                <p>זיהוי נקודות חריגות בדאטה - חשוב לאבטחת מידע, זיהוי הונאות, ניטור מערכות</p>
+                            </div>
+                            <div class="slide-number">שקף 5/10</div>
+                        </div>
+
+                        <div class="slide">
+                            <h3>3. למידת חיזוק (Reinforcement Learning)</h3>
+                            <div class="highlight-box">
+                                <p><strong>הגדרה:</strong> למידה על ידי ניסוי וטעייה עם מערכת תגמולים ועונשים</p>
+                            </div>
+                            <h4>המרכיבים העיקריים:</h4>
+                            <ul>
+                                <li>🤖 <strong>Agent (סוכן):</strong> המערכת שלומדת</li>
+                                <li>🌍 <strong>Environment (סביבה):</strong> העולם שהסוכן פועל בו</li>
+                                <li>⚡ <strong>Actions (פעולות):</strong> מה הסוכן יכול לעשות</li>
+                                <li>📊 <strong>State (מצב):</strong> המצב הנוכחי של הסביבה</li>
+                                <li>🎁 <strong>Reward (תגמול):</strong> משוב על איכות הפעולה</li>
+                            </ul>
+                            <div class="slide-number">שקף 6/10</div>
+                        </div>
+
+                        <div class="slide">
+                            <h3>איך עובד Reinforcement Learning?</h3>
+                            <div class="code-block">
+Loop:
+  1. Agent observes current state (s)
+  2. Agent selects action (a)
+  3. Environment gives reward (r) and new state (s')
+  4. Agent learns from experience
+  5. Repeat...
+
+Goal: Maximize cumulative reward over time
+                            </div>
+                            <div class="image-placeholder">🔄 🎯 📈</div>
+                            <div class="slide-number">שקף 7/10</div>
+                        </div>
+
+                        <div class="slide">
+                            <h3>דוגמאות ל-Reinforcement Learning</h3>
+                            <ul>
+                                <li>🎮 <strong>משחקים:</strong> AlphaGo, שחמט, Atari games</li>
+                                <li>🤖 <strong>רובוטיקה:</strong> הליכה, אחיזת חפצים</li>
+                                <li>🚗 <strong>רכבים אוטונומיים:</strong> נהיגה עצמאית</li>
+                                <li>💰 <strong>מסחר פיננסי:</strong> החלטות השקעה</li>
+                                <li>🌡️ <strong>בקרת מערכות:</strong> אופטימיזציית צריכת אנרגיה</li>
+                                <li>💊 <strong>תכנון טיפול:</strong> התאמת טיפולים רפואיים</li>
+                            </ul>
+                            <div class="slide-number">שקף 8/10</div>
+                        </div>
+
+                        <div class="slide">
+                            <h3>השוואה בין הסוגים</h3>
+                            <div class="two-column">
+                                <div class="concept-card">
+                                    <h5>📋 Supervised</h5>
+                                    <p><strong>יתרונות:</strong></p>
+                                    <ul style="font-size: 0.9rem;">
+                                        <li>ביצועים גבוהים</li>
+                                        <li>פשוט יחסית</li>
+                                    </ul>
+                                    <p><strong>חסרונות:</strong></p>
+                                    <ul style="font-size: 0.9rem;">
+                                        <li>דורש תיוג ידני</li>
+                                        <li>יקר ואיטי</li>
+                                    </ul>
+                                </div>
+                                <div class="concept-card">
+                                    <h5>🔍 Unsupervised</h5>
+                                    <p><strong>יתרונות:</strong></p>
+                                    <ul style="font-size: 0.9rem;">
+                                        <li>לא דורש תיוג</li>
+                                        <li>מוצא דפוסים מפתיעים</li>
+                                    </ul>
+                                    <p><strong>חסרונות:</strong></p>
+                                    <ul style="font-size: 0.9rem;">
+                                        <li>קשה להערכה</li>
+                                        <li>פחות מדויק</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="concept-card" style="margin-top: 1rem;">
+                                <h5>🎮 Reinforcement</h5>
+                                <p><strong>יתרונות:</strong> למידה דינמית, פתרון בעיות מורכבות</p>
+                                <p><strong>חסרונות:</strong> דורש הרבה זמן, לא יציב תמיד</p>
+                            </div>
+                            <div class="slide-number">שקף 9/10</div>
+                        </div>
+
+                        <div class="slide">
+                            <h3>מתי להשתמש בכל סוג? 🤔</h3>
+                            <div class="highlight-box">
+                                <p><strong>השתמש ב-Supervised Learning כאשר:</strong></p>
+                                <ul>
+                                    <li>יש לך דאטה מתויג</li>
+                                    <li>אתה רוצה לחזות משהו ספציפי</li>
+                                    <li>הבעיה היא חיזוי או סיווג</li>
+                                </ul>
+                            </div>
+                            <div class="highlight-box">
+                                <p><strong>השתמש ב-Unsupervised Learning כאשר:</strong></p>
+                                <ul>
+                                    <li>אין לך תיוגים</li>
+                                    <li>אתה רוצה לגלות מבנה בדאטה</li>
+                                    <li>צריך להפחית מימדים או לקבץ</li>
+                                </ul>
+                            </div>
+                            <div class="highlight-box">
+                                <p><strong>השתמש ב-Reinforcement Learning כאשר:</strong></p>
+                                <ul>
+                                    <li>יש לך סביבה ופעולות</li>
+                                    <li>למידה דינמית דרך אינטראקציה</li>
+                                    <li>המטרה היא אופטימיזציה לאורך זמן</li>
+                                </ul>
+                            </div>
+                            <div class="slide-number">שקף 10/10</div>
+                        </div>
+                    `
+                }
+            };
+
+            // Default presentation for lessons without custom content
+            const defaultPresentation = `
+                <div class="slide">
+                    <h3>${lesson.title}</h3>
+                    <p>${lesson.description}</p>
+                    <div class="video-placeholder">
+                        <div class="video-placeholder-icon">🎥</div>
+                        <p>וידאו השיעור יועלה בקרוב</p>
+                    </div>
+                    <div class="slide-number">שקף 1/6</div>
+                </div>
+
+                <div class="slide">
+                    <h3>נושאים שנכסה בשיעור</h3>
+                    <ul>
+                        ${lesson.topics.map(topic => `<li><strong>${topic}</strong></li>`).join('')}
+                    </ul>
+                    <div class="highlight-box">
+                        <p>בשיעור זה נצלול לעומק לכל אחד מהנושאים ונלמד דרך דוגמאות מעשיות וקוד.</p>
+                    </div>
+                    <div class="slide-number">שקף 2/6</div>
+                </div>
+
+                <div class="slide">
+                    <h3>מושגי מפתח</h3>
+                    <div class="two-column">
+                        ${lesson.topics.slice(0, 4).map(topic => `
+                            <div class="concept-card">
+                                <h5>${topic}</h5>
+                                <p>נלמד את הנושא לעומק עם דוגמאות ותרגול מעשי.</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="slide-number">שקף 3/6</div>
+                </div>
+
+                <div class="slide">
+                    <h3>דוגמה מעשית</h3>
+                    <div class="code-block">
+# Python code example
+import numpy as np
+import pandas as pd
+
+# Your practical example here
+print("שיעור מעשיים וקוד אמיתי")
+                    </div>
+                    <p>בשיעור נעבור על הקוד שלב אחר שלב ונבין כל חלק.</p>
+                    <div class="slide-number">שקף 4/6</div>
+                </div>
+
+                <div class="slide">
+                    <h3>תרגול עצמאי 💪</h3>
+                    <div class="highlight-box">
+                        <p><strong>משימה:</strong></p>
+                        <p>נסה ליישם את מה שלמדת בפרויקט קטן משלך. זה יעזור לך להטמיע את הידע!</p>
+                    </div>
+                    <h4 style="margin-top: 2rem;">משאבים נוספים:</h4>
+                    <ul>
+                        <li>📚 תיעוד רשמי</li>
+                        <li>💻 דוגמאות קוד ב-GitHub</li>
+                        <li>🎥 סרטוני הרחבה</li>
+                        <li>📝 תרגילים נוספים</li>
+                    </ul>
+                    <div class="slide-number">שקף 5/6</div>
+                </div>
+
+                <div class="slide">
+                    <h3>סיכום 📝</h3>
+                    <div class="highlight-box">
+                        <p><strong>למדנו היום:</strong></p>
+                        <ul>
+                            ${lesson.topics.map(topic => `<li>${topic}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <p style="margin-top: 2rem; text-align: center; font-size: 1.3rem;">
+                        <strong>בשיעור הבא:</strong> נמשיך להתקדם ולבנות על הידע שרכשנו! 🚀
+                    </p>
+                    <div class="slide-number">שקף 6/6</div>
+                </div>
+            `;
+
+            // Return custom presentation if exists, otherwise default
+            return presentations[courseName]?.[lesson.number] || defaultPresentation;
+        }
+
+        // Close modal when clicking outside
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', function (e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+        });
+        // Check Local Server Status
+        async function checkApiStatus() {
+            const dot = document.getElementById('status-dot');
+            const text = document.getElementById('status-text');
+            try {
+                const res = await fetch('http://localhost:3001/api/send-email', { method: 'GET' }).catch(() => ({ ok: false }));
+                if (res.ok) {
+                    dot.classList.add('online');
+                    text.textContent = 'שרת מקומי: מחובר ✅';
+                } else {
+                    dot.classList.remove('online');
+                    text.textContent = 'שרת מקומי: לא מחובר ❌ (הרץ node server.js)';
+                }
+            } catch (e) {
+                dot.classList.remove('online');
+                text.textContent = 'שרת מקומי: לא מחובר ❌';
+            }
+        }
+        checkApiStatus();
+        setInterval(checkApiStatus, 5000);
+    </script>
+</body>
+
+</html>
