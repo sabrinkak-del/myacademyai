@@ -16,7 +16,12 @@ export default async function handler(req, res) {
 
   try {
     console.log('Attempting to send email via Resend...');
-    const apiKey = process.env.RESEND_API_KEY || 're_C98VUNKR_2kn8KR1Zhk95dTn6XEg2EiLK';
+    const apiKey = process.env.RESEND_API_KEY;
+
+    if (!apiKey) {
+      console.error('RESEND_API_KEY environment variable is not set');
+      return res.status(500).json({ error: 'System configuration error: Missing API Key' });
+    }
 
     if (!apiKey.startsWith('re_')) {
       console.error('Invalid API Key format');
